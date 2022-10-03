@@ -34,23 +34,35 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
+  console.log("login backend fired");
   try {
-    const user = await UserModel.findOne({ email: req.body.email });
-
+    const user = await User.findOne({ email: req.body.email });
     if (!user) {
       return res.status(404).json({
         message: "user not found",
       });
     }
 
+    const token = jwt.sign(
+      {
+        _id: user._id,
+      },
+      "secret123",
+      {
+        expiresIn: "30d",
+      }
+    );
+
     const isValidPass = await bcrypt.compare(req.body.password, user.password);
+
+    console.log(token);
 
     if (!isValidPass) {
       return res.status(400).json({
         message: "wrong email or password",
       });
     }
-    res.status(200).json({ user });
+    res.status(200).json({ user, token });
   } catch (error) {
     res.status(500).json(error);
   }

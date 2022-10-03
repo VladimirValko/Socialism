@@ -22,6 +22,32 @@
   margin: 10px;
 }
 
+.nameLogout {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.logoutBtn {
+  color: gray;
+  margin-right: 20px;
+  cursor: pointer;
+  width: max-content;
+  border: 1px solid rgba(161, 158, 161, 0.396);
+  padding: 10px;
+  border-radius: 5px;
+  font-weight: 300;
+  background-color: rgba(193, 193, 193, 0);
+}
+
+.logoutBtn:hover {
+  color: rgb(111, 29, 103);
+  border: 1px solid rgba(113, 113, 113, 0.89);
+  -webkit-box-shadow: 3px 5px 25px -13px rgba(34, 60, 80, 0.39);
+  -moz-box-shadow: 3px 5px 25px -13px rgba(34, 60, 80, 0.39);
+  box-shadow: 3px 5px 25px -13px rgba(34, 60, 80, 0.39);
+}
+
 .profileImg {
   display: flex;
   width: 100%;

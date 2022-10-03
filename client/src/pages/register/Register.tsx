@@ -4,10 +4,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectIsAuth, fetchRegister } from "../../redux/slices/AuthSlice";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { AppDispatch } from "../../redux/store";
+
+type ValueType = {
+  username: string;
+  email: string;
+  password: string;
+};
 
 const Register = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const {
     register,
@@ -23,7 +30,7 @@ const Register = () => {
     mode: "onChange",
   });
 
-  const onSubmit = async (values) => {
+  const onSubmit = async (values: ValueType) => {
     console.log(values);
     const data = await dispatch(fetchRegister(values));
     if ("token" in data.payload) {

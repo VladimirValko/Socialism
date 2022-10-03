@@ -3,6 +3,9 @@ import Person1 from "../../assets/person/1.jpeg";
 import Share from "../share/Share";
 import Post from "../post/Post";
 import PostImg from "../../assets/post/3.jpeg";
+import { logOut } from "../../redux/slices/AuthSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const PostData = {
   id: 1,
@@ -14,7 +17,18 @@ const PostData = {
   comment: 9,
 };
 
-const User:React.FC = () => {
+const User: React.FC = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const onClickLogout = () => {
+    if (window.confirm("You are shure you want to logout?")) {
+      dispatch(logOut());
+      navigate("/login", { replace: true });
+      window.localStorage.removeItem("token");
+    }
+  };
+
   return (
     <div className="user">
       <div className="userLeft">
@@ -25,8 +39,13 @@ const User:React.FC = () => {
       </div>
       <div className="userRight">
         <div className="profileInfo">
-          <div className="userName">
-            <span>Jane Smith</span>
+          <div className="nameLogout">
+            <div className="userName">
+              <span>Jane Smith</span>
+            </div>
+            <button className="logoutBtn" onClick={() => onClickLogout()}>
+              Log out
+            </button>
           </div>
           <div className="mainInfo">
             <span>
