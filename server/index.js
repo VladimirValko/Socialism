@@ -7,6 +7,7 @@ import cors from "cors";
 import * as AuthControllers from "./controllers/authController.js";
 import * as UserControllers from "./controllers/userController.js";
 import * as PostControllers from "./controllers/postController.js";
+import loginValidation from "./auth/authValidation.js";
 
 dotenv.config();
 const app = express();
@@ -37,6 +38,7 @@ mongoose.connection.on("connected", () => {
 //ROUTS
 app.get("/user/:id", UserControllers.getUser);
 app.post("/register", AuthControllers.register);
+app.post("/login", AuthControllers.login);
 app.put("/users/:id", UserControllers.update);
 
 app.put("/user/:id/follow", UserControllers.followUser);

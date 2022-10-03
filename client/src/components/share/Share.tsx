@@ -4,7 +4,7 @@ import { BsImages } from "react-icons/bs";
 import { GoLocation } from "react-icons/go";
 import { RiFileMusicLine } from "react-icons/ri";
 
-const Share = () => {
+const Share:React.FC = () => {
   return (
     <div className="share">
       <div className="shareWrapper">

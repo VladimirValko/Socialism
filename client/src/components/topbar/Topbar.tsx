@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { BsSearch, BsFillPersonFill, BsFillChatLeftTextFill } from "react-icons/bs";
 import { IoMdNotifications } from "react-icons/io";
 
-const Topbar = () => {
+const Topbar:React.FC = () => {
   return (
     <div className="topbarContainer">
       <div className="topbarLeft">

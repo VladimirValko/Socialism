@@ -4,7 +4,7 @@ import { FiMoreVertical } from "react-icons/fi"
 import PostPicture from "../../assets/post/1.jpeg";
 import Like from "../../assets/like.png";
 import Heart from "../../assets/heart.png";
-import { format } from "timeago.js";
+// import { format } from "timeago.js";
 
 export type PostData = {
   createdAt: string;
@@ -27,7 +27,7 @@ const Post:React.FC<PostProps> = ({ data }) => {
           <div className="postTopLeft">
             <img className="PostProfileImg" src={Person1} alt="profile" />
             <span className="postUserName">Jane Smith</span>
-            <span className="postDate">{format(data?.createdAt) || ""}</span>
+            {/* <span className="postDate">{format(data?.createdAt) || ""}</span> */}
           </div>
           <div className="postTopRight">
             <FiMoreVertical />
