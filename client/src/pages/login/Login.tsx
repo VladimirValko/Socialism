@@ -4,11 +4,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAuth, selectIsAuth } from "../../redux/slices/AuthSlice";
 import { useForm } from "react-hook-form";
 import { AppDispatch } from "../../redux/store";
+import { UserDataType } from "../../redux/slices/AuthSlice";
 
 type ValueType = {
   email: string;
   password: string;
 };
+
+// type responseData = {
+//   meta: {
+//     arg: {
+//       email: string;
+//       password: string;
+//     };
+//     requestId: string;
+//     requestStatus: string;
+//   };
+//   payload: { token: string; user: UserData };
+//   type: string;
+// };
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -28,8 +42,8 @@ const Login: React.FC = () => {
   });
 
   const onSubmit = async (values: ValueType) => {
-    console.log(values);
     const data = await dispatch(fetchAuth(values));
+
     if ("token" in data.payload) {
       window.localStorage.setItem("token", data.payload.token);
       navigate("/", { replace: true });

@@ -1,9 +1,19 @@
 import "./topbar.css";
 import { Link } from "react-router-dom";
-import { BsSearch, BsFillPersonFill, BsFillChatLeftTextFill } from "react-icons/bs";
+import {
+  BsSearch,
+  BsFillPersonFill,
+  BsFillChatLeftTextFill,
+} from "react-icons/bs";
 import { IoMdNotifications } from "react-icons/io";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
-const Topbar:React.FC = () => {
+const Topbar: React.FC = () => {
+  const id = useSelector(
+    (state: RootState) => state.authReducer.userData.user?._id
+  );
+
   return (
     <div className="topbarContainer">
       <div className="topbarLeft">
@@ -27,21 +37,25 @@ const Topbar:React.FC = () => {
         </div>
         <div className="topbarIcons">
           <div className="topbarIconItem">
-            <BsFillPersonFill className="topbarIcon"/>
+            <BsFillPersonFill className="topbarIcon" />
             <span className="topbarIconBadge">1</span>
           </div>
           <div className="topbarIconItem">
-            <BsFillChatLeftTextFill className="topbarIcon"/>
+            <BsFillChatLeftTextFill className="topbarIcon" />
             <span className="topbarIconBadge">0</span>
           </div>
           <div className="topbarIconItem">
-            <IoMdNotifications className="topbarIcon"/>
+            <IoMdNotifications className="topbarIcon" />
             <span className="topbarIconBadge">2</span>
           </div>
         </div>
         <div>
-          <Link to="/profile/user" style={{ textDecoration: "none" }}>
-            <img src="https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?w=2000" alt="profile" className="topbarImage" />
+          <Link to={`/profile/${id}`} style={{ textDecoration: "none" }}>
+            <img
+              src="https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?w=2000"
+              alt="profile"
+              className="topbarImage"
+            />
           </Link>
         </div>
       </div>
