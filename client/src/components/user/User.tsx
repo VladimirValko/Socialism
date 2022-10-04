@@ -1,5 +1,5 @@
 import "./user.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { fetctEditProfile } from "../../redux/slices/AuthSlice";
 import Share from "../share/Share";
 import { RootState } from "../../redux/store";
@@ -31,6 +31,10 @@ const User: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    setProfileUserData(usersData);
+  }, [usersData]);
+
   const { register, handleSubmit } = useForm({
     defaultValues: {
       username: usersData?.username || "John Smith",
@@ -53,11 +57,8 @@ const User: React.FC = () => {
   };
 
   const onSubmit = async (userEditData: EditProfileDataType) => {
-    const { meta } = await dispatch(fetctEditProfile(userEditData));
-    console.log(meta.arg, "meta.arg ot submita");
-    console.log(usersData);
-    console.log(userEditData, "это то что уходит на сервер");
-    // setProfileUserData(resivedUserData.data)
+    await dispatch(fetctEditProfile(userEditData));
+    setIsEdditing(!isEdditing);
   };
 
   const onClickLogout = () => {
@@ -72,10 +73,7 @@ const User: React.FC = () => {
     <div className="user">
       <div className="userLeft">
         <div className="profileImg">
-          <img
-            src="https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?w=2000"
-            alt=""
-          />
+          <img src={profileUserData?.coverPicture} alt="" />
         </div>
         <div className="profileMedia"></div>
       </div>
@@ -83,7 +81,9 @@ const User: React.FC = () => {
         <div className="profileInfo">
           <div className="nameLogout">
             <div className="userName">
-              <span>Jane Smith</span>
+              <span>
+                <b>{profileUserData?.username}</b>
+              </span>
               <div className="editProfile" onClick={handleEditClick}>
                 <AiOutlineEdit className="editProfileIcon" />
                 <span className="editProfileText">Edit profile</span>
@@ -95,26 +95,19 @@ const User: React.FC = () => {
           </div>
           <div className="mainInfo">
             <span>
-              Relationship: <b>Single</b>
+              Relationship: <b>{profileUserData?.relationship}</b>
             </span>
 
             <span className="birthday">
-              Birthday <b>10.03.2001</b>
+              Birthday <b>{profileUserData?.birthday}</b>
             </span>
 
             <span>
-              My hometown is <b>London</b>
+              My hometown is <b>{profileUserData?.hometown}</b>
             </span>
           </div>
           <div className="dexcriptionContainer">
-            <span>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odio
-              sint dicta ab ducimus voluptatum architecto quaerat, id labore
-              laudantium eum assumenda vero adipisci dolorem delectus
-              repudiandae quidem nobis quod voluptate, id labore laudantium eum
-              assumenda vero adipisci dolorem delectus repudiandae quidem nobis
-              quod voluptate.
-            </span>
+            <span>{profileUserData?.description}</span>
           </div>
         </div>
         {isEdditing && (
@@ -131,8 +124,8 @@ const User: React.FC = () => {
               <div className="formBlock">
                 <span>Your Relationship status</span>
                 <select {...register("relationship")}>
-                  <option value="single">Single</option>
-                  <option value="in relationship">In Relationship</option>
+                  <option value="Single">Single</option>
+                  <option value="In Relationship">In Relationship</option>
                 </select>
               </div>
               <div className="formBlock">

@@ -62,7 +62,6 @@ export const fetctEditProfile = createAsyncThunk(
   "auth/fetctEditProfile",
   async (params: EditProfileDataType) => {
     const { data } = await axios.put<UserDataType>(`/users/${params.userId}`, params);
-    console.log(data, "data from fetchEditProfile");
     return data;
   }
 );

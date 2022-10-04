@@ -5,8 +5,9 @@ export const update = async (req, res) => {
     const user = await User.findByIdAndUpdate(req.params.userId, {
       $set: req.body,
     });
+    const updatedUser = await User.findById(req.params.userId);
 
-    res.status(200).json(user);
+    res.status(200).json(updatedUser);
   } catch (error) {
     return res.status(500).json(error);
   }
