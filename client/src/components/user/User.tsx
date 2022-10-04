@@ -1,25 +1,64 @@
 import "./user.css";
-import Person1 from "../../assets/person/1.jpeg";
+import React, { useState } from "react";
+import { fetctEditProfile } from "../../redux/slices/AuthSlice";
 import Share from "../share/Share";
+import { RootState } from "../../redux/store";
 import Post from "../post/Post";
-import PostImg from "../../assets/post/3.jpeg";
 import { logOut } from "../../redux/slices/AuthSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { AiOutlineEdit } from "react-icons/ai";
+import { useForm } from "react-hook-form";
+import { AppDispatch } from "../../redux/store";
 
-const PostData = {
-  id: 1,
-  desc: "Love For All, Hatred For None.",
-  photo: PostImg,
-  date: "5 mins ago",
-  userId: 1,
-  like: 32,
-  comment: 9,
+export type EditProfileDataType = {
+  username: string;
+  coverPicture: string;
+  description: string;
+  hometown: string;
+  relationship: string;
+  birthday: string;
+  userId: string | undefined;
 };
 
 const User: React.FC = () => {
-  const dispatch = useDispatch();
+  const usersData = useSelector(
+    (state: RootState) => state.authReducer.userData.user
+  );
+  const [isEdditing, setIsEdditing] = useState(false);
+  const [profileUserData, setProfileUserData] = useState(usersData);
+  const userId = usersData?._id;
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+
+  const { register, handleSubmit } = useForm({
+    defaultValues: {
+      username: usersData?.username || "John Smith",
+      coverPicture:
+        usersData?.coverPicture ||
+        "https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?w=2000",
+      description:
+        usersData?.description ||
+        "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odio sint dicta ab ducimus voluptatum architecto quaerat, id labore laudantium eum assumenda vero adipisci dolorem delectus repudiandae quidem nobis quod voluptate, id labore laudantium eum assumenda vero adipisci dolorem delectus repudiandae quidem nobis quod voluptate.",
+      hometown: usersData?.hometown || "London",
+      relationship: usersData?.relationship || "Single",
+      birthday: usersData?.birthday || "10.03.2000",
+      userId: usersData?._id,
+    },
+    mode: "onChange",
+  });
+
+  const handleEditClick = () => {
+    setIsEdditing(!isEdditing);
+  };
+
+  const onSubmit = async (userEditData: EditProfileDataType) => {
+    const { meta } = await dispatch(fetctEditProfile(userEditData));
+    console.log(meta.arg, "meta.arg ot submita");
+    console.log(usersData);
+    console.log(userEditData, "это то что уходит на сервер");
+    // setProfileUserData(resivedUserData.data)
+  };
 
   const onClickLogout = () => {
     if (window.confirm("You are shure you want to logout?")) {
@@ -33,7 +72,10 @@ const User: React.FC = () => {
     <div className="user">
       <div className="userLeft">
         <div className="profileImg">
-          <img src={Person1} alt="" />
+          <img
+            src="https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?w=2000"
+            alt=""
+          />
         </div>
         <div className="profileMedia"></div>
       </div>
@@ -42,6 +84,10 @@ const User: React.FC = () => {
           <div className="nameLogout">
             <div className="userName">
               <span>Jane Smith</span>
+              <div className="editProfile" onClick={handleEditClick}>
+                <AiOutlineEdit className="editProfileIcon" />
+                <span className="editProfileText">Edit profile</span>
+              </div>
             </div>
             <button className="logoutBtn" onClick={() => onClickLogout()}>
               Log out
@@ -71,6 +117,46 @@ const User: React.FC = () => {
             </span>
           </div>
         </div>
+        {isEdditing && (
+          <div className="editProfileFormWrapper">
+            <form onSubmit={handleSubmit(onSubmit)} className="editProfileForm">
+              <div className="formBlock">
+                <span>Profile image url</span>
+                <input type="text" {...register("coverPicture")} />
+              </div>
+              <div className="formBlock">
+                <span>Your name</span>
+                <input type="text" {...register("username")} />
+              </div>
+              <div className="formBlock">
+                <span>Your Relationship status</span>
+                <select {...register("relationship")}>
+                  <option value="single">Single</option>
+                  <option value="in relationship">In Relationship</option>
+                </select>
+              </div>
+              <div className="formBlock">
+                <span>Your Birthday</span>
+                <input
+                  type="date"
+                  placeholder="Your Birthday"
+                  {...register("birthday")}
+                />
+              </div>
+              <div className="formBlock">
+                <span>Your Hometown</span>
+                <input type="text" {...register("hometown")} />
+              </div>
+              <div className="formBlock">
+                <span>About You</span>
+                <input type="text" {...register("description")} />
+              </div>
+              <button type="submit" className="submitProfileEditBtn">
+                Submit
+              </button>
+            </form>
+          </div>
+        )}
         <div className="share">
           <Share />
         </div>

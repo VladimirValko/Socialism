@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../utils/axios";
-import { RootState } from "../store"
+import { RootState } from "../store";
+import { EditProfileDataType } from "../../components/user/User";
 
 export type UserDataType = {
   _id: string;
@@ -10,6 +11,10 @@ export type UserDataType = {
   coverPicture: string;
   followers: string[];
   followins: string[];
+  description: string;
+  hometown: string;
+  relationship: string;
+  birthday: string;
 };
 
 type RegisterType = {
@@ -49,7 +54,15 @@ export const fetchAuth = createAsyncThunk(
   "auth/fetchAuth",
   async (params: AuthType) => {
     const { data } = await axios.post("/login", params);
-    console.log(data, "data from fetch");
+    return data;
+  }
+);
+
+export const fetctEditProfile = createAsyncThunk(
+  "auth/fetctEditProfile",
+  async (params: EditProfileDataType) => {
+    const { data } = await axios.put<UserDataType>(`/users/${params.userId}`, params);
+    console.log(data, "data from fetchEditProfile");
     return data;
   }
 );
@@ -94,7 +107,19 @@ const authSlice = createSlice({
       builder.addCase(fetchRegister.rejected, (state) => {
         console.log("smthng goes wrong");
         state.userData.user = null;
-      });
+      })
+      builder.addCase(fetctEditProfile.pending, (state) => {
+        state.status = "loading";
+      })
+      builder.addCase(fetctEditProfile.fulfilled, (state, action) => {
+        state.userData.user = action.payload;
+        state.status = "succese";
+      })
+      builder.addCase(fetctEditProfile.rejected, (state) => {
+        console.log("smthng goes wrong");
+        state.userData.user = null;
+      })
+      ;
   },
 });
 

@@ -11,19 +11,6 @@ type ValueType = {
   password: string;
 };
 
-// type responseData = {
-//   meta: {
-//     arg: {
-//       email: string;
-//       password: string;
-//     };
-//     requestId: string;
-//     requestStatus: string;
-//   };
-//   payload: { token: string; user: UserData };
-//   type: string;
-// };
-
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();

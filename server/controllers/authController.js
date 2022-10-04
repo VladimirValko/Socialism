@@ -15,8 +15,6 @@ export const register = async (req, res) => {
     });
     await newUser.save();
 
-    console.log(newUser._id);
-
     const token = jwt.sign(
       {
         _id: newUser._id,
@@ -34,7 +32,6 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  console.log("login backend fired");
   try {
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
@@ -54,8 +51,6 @@ export const login = async (req, res) => {
     );
 
     const isValidPass = await bcrypt.compare(req.body.password, user.password);
-
-    console.log(token);
 
     if (!isValidPass) {
       return res.status(400).json({

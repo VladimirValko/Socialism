@@ -2,12 +2,11 @@ import User from "../models/User.js";
 
 export const update = async (req, res) => {
   try {
-    const user = await User.findByIdAndUpdate(req.params.id, {
+    const user = await User.findByIdAndUpdate(req.params.userId, {
       $set: req.body,
     });
-    console.log(user);
 
-    res.status(200).json("user has been updated");
+    res.status(200).json(user);
   } catch (error) {
     return res.status(500).json(error);
   }

@@ -39,7 +39,7 @@ mongoose.connection.on("connected", () => {
 app.get("/user/:id", UserControllers.getUser);
 app.post("/register", AuthControllers.register);
 app.post("/login", AuthControllers.login);
-app.put("/users/:id", UserControllers.update);
+app.put("/users/:userId", UserControllers.update);
 
 app.put("/user/:id/follow", UserControllers.followUser);
 app.put("/user/:id/unfollow", UserControllers.unfollowUser);
