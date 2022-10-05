@@ -19,8 +19,33 @@
 }
 
 .postTopLeft {
+  
   display: flex;
   align-items: center;
+}
+
+.postTopRight {
+  position: relative;
+  cursor: pointer;
+}
+
+.deleteMessage {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  border: 1px solid rgba(138, 138, 138, 0.579);
+  background-color:rgb(251, 251, 251);
+  right: 20px;
+  top: -6px;
+  width: max-content;
+  font-size: 13px;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.deleteIcon {
+  color: red;
+  margin-right: 5px;
 }
 
 .PostProfileImg {
@@ -34,11 +59,6 @@
   font-size: 15px;
   font-weight: 500;
   margin: 0 10px;
-}
-
-.postDate {
-  font-size: 12px;
-  color: rgb(141, 141, 141);
 }
 
 .postBody {

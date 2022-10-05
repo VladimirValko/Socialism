@@ -77,7 +77,8 @@
   flex-direction: column;
   justify-content: space-around;
   margin-bottom: 20px;
-  height: 280px;
+  min-height: 280px;
+  height: max-content;
   width: 100%;
   border-radius: 10px;
   background-color: rgba(255, 255, 255, 0.777);
@@ -95,7 +96,7 @@
   height: max-content;
   width: 100%;
   border-radius: 10px;
-  background-color: rgba(255, 255, 255, 0.777);
+  background-color: rgba(255, 255, 255, 0.569);
   -webkit-box-shadow: 3px 5px 25px -13px rgba(34, 60, 80, 0.39);
   -moz-box-shadow: 3px 5px 25px -13px rgba(34, 60, 80, 0.39);
   box-shadow: 3px 5px 25px -13px rgba(34, 60, 80, 0.39);
@@ -114,7 +115,8 @@
   line-height: 24px;
   margin-top: 5px;
   border-radius: 10px;
-  padding: 6px;
+  padding: 8px;
+  padding-left: 10px;
 }
 
 .editProfileForm input:hover {
@@ -136,7 +138,7 @@
   font-size: 16px;
   line-height: 24px;
   margin-top: 5px;
-  padding: 6px;
+  padding: 9px;
   border-radius: 10px;
 }
 
@@ -197,7 +199,7 @@
   border: none;
   background-color: rgba(255, 255, 255, 0.801);
   border-radius: 5px;
-
+  margin: 10px auto;
 }
 
 .submitProfileEditBtn:hover {
@@ -227,10 +229,9 @@
   margin: 20px;
 }
 
-.share {
-  margin-bottom: 10px;
+.userPosts {
+  margin-top: 10px;
 }
-
 
 .profileMedia {
   width: 100%;

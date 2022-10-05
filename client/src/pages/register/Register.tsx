@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import "./register.css";
 import { useDispatch, useSelector } from "react-redux";
-import { selectIsAuth, fetchRegister } from "../../redux/slices/AuthSlice";
+import { fetchRegister } from "../../redux/slices/AuthSlice";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { AppDispatch } from "../../redux/store";
 
 type ValueType = {
@@ -72,7 +72,14 @@ const Register = () => {
             <button className="registerButton" onClick={handleSubmit(onSubmit)}>
               Sign Up
             </button>
-            <button className="registerButton">Log into Account</button>
+            <button className="registerButton">
+              <Link
+                to={"/login"}
+                style={{ textDecoration: "none", color: "black" }}
+              >
+                Log into Account
+              </Link>
+            </button>
           </div>
         </div>
       </div>

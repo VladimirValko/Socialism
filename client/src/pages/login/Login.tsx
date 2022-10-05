@@ -1,5 +1,5 @@
 import "./login.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAuth, selectIsAuth } from "../../redux/slices/AuthSlice";
 import { useForm } from "react-hook-form";
@@ -66,7 +66,12 @@ const Login: React.FC = () => {
             </button>
             <span className="loginCreate">Don't have an account?</span>
             <button className="loginRegisterButton">
-              Create a New Account
+              <Link
+                to="/register"
+                style={{ textDecoration: "none", color: "black" }}
+              >
+                Create a New Account
+              </Link>
             </button>
           </div>
         </div>

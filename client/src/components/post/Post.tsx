@@ -1,36 +1,51 @@
 import "./post.css";
-import Person1 from "../../assets/person/1.jpeg";
-import { FiMoreVertical } from "react-icons/fi"
-import PostPicture from "../../assets/post/1.jpeg";
+import React, { useState } from "react";
+import { FiMoreVertical } from "react-icons/fi";
+import { TiDelete } from "react-icons/ti";
 import Like from "../../assets/like.png";
 import Heart from "../../assets/heart.png";
-// import { format } from "timeago.js";
+import { SinglePostType } from "../../redux/slices/PostSlice";
 
-export type PostData = {
-  createdAt: string;
-  desription: string;
-  image: string;
-  coment: number;
-  likes: string[];
-  userId: string;
-}
+const undefinedPicture =
+  "https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg";
 
 type PostProps = {
-  data: PostData
+  data: SinglePostType;
+  image?: string;
 };
 
-const Post:React.FC<PostProps> = ({ data }) => {
+const Post: React.FC<PostProps> = ({ data, image }) => {
+  const [isReadyToDelete, setIsReadyToDelete] = useState(false);
+
+  const handleOpenDelete = () => {
+    setIsReadyToDelete(!isReadyToDelete);
+  };
+
+  const deletePost = () => {
+    console.log("ha-ha, Deleted!!!");
+    setIsReadyToDelete(false);
+  };
+
   return (
     <div className="post">
       <div className="postWrapper">
         <div className="postTop">
           <div className="postTopLeft">
-            <img className="PostProfileImg" src={Person1} alt="profile" />
-            <span className="postUserName">Jane Smith</span>
-            {/* <span className="postDate">{format(data?.createdAt) || ""}</span> */}
+            <img
+              className="PostProfileImg"
+              src={image || data.userPicture || undefinedPicture}
+              alt="profile"
+            />
+            <span className="postUserName">{data.userName}</span>
           </div>
           <div className="postTopRight">
-            <FiMoreVertical />
+            <FiMoreVertical onClick={() => handleOpenDelete()} />
+            {isReadyToDelete && (
+              <div className="deleteMessage" onClick={() => deletePost()}>
+                <TiDelete className="deleteIcon" />
+                <span>Delete this post?</span>
+              </div>
+            )}
           </div>
         </div>
         <div className="postBody">
@@ -45,9 +60,7 @@ const Post:React.FC<PostProps> = ({ data }) => {
               {data?.likes.length} people liked this
             </span>
           </div>
-          <div className="postBottomRight">
-            {/* <span className="postCommentText">{data?.coment} comments</span> */}
-          </div>
+          <div className="postBottomRight"></div>
         </div>
       </div>
     </div>

@@ -1,10 +1,11 @@
-import "./leftbar.css"
+import "./leftbar.css";
 import { MdRssFeed, MdVideoLibrary } from "react-icons/md";
 import { BsFillChatLeftTextFill } from "react-icons/bs";
-import { SiYoutubemusic } from "react-icons/si";
+import { SiYoutubemusic, SiTinder } from "react-icons/si";
 import { BiNews } from "react-icons/bi";
 import { Link } from "react-router-dom";
-import Birthday from "../../assets/gift.png"
+import { FaUserFriends } from "react-icons/fa";
+import Birthday from "../../assets/gift.png";
 
 const Sidebar: React.FC = () => {
   return (
@@ -16,6 +17,10 @@ const Sidebar: React.FC = () => {
             <Link to="/" style={{ textDecoration: "none" }}>
               <span className="leftbarListItemText link">Feed</span>
             </Link>
+          </li>
+          <li className="leftbarListItem">
+            <FaUserFriends className="leftbarListItemIcon" />
+            <span className="leftbarListItemText">People</span>
           </li>
           <li className="leftbarListItem">
             <BsFillChatLeftTextFill className="leftbarListItemIcon" />
@@ -32,6 +37,10 @@ const Sidebar: React.FC = () => {
           <li className="leftbarListItem">
             <BiNews className="leftbarListItemIcon" />
             <span className="leftbarListItemText">News</span>
+          </li>
+          <li className="leftbarListItem">
+            <SiTinder className="leftbarListItemIcon" />
+            <span className="leftbarListItemText">Finder</span>
           </li>
         </ul>
         <div className="premiumBtn">

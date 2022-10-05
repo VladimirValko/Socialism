@@ -10,8 +10,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 
 const Topbar: React.FC = () => {
-  const id = useSelector(
-    (state: RootState) => state.authReducer.userData.user?._id
+  const user = useSelector(
+    (state: RootState) => state.authReducer.userData.user
   );
 
   return (
@@ -50,9 +50,9 @@ const Topbar: React.FC = () => {
           </div>
         </div>
         <div>
-          <Link to={`/profile/${id}`} style={{ textDecoration: "none" }}>
+          <Link to={`/profile/${user?._id}`} style={{ textDecoration: "none" }}>
             <img
-              src="https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?w=2000"
+              src={user?.coverPicture}
               alt="profile"
               className="topbarImage"
             />

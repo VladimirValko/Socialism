@@ -1,31 +1,37 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Post from "../post/Post";
 import Share from "../share/Share";
 import "./feed.css";
-import { PostData } from "../post/Post";
-
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "../../redux/store";
+import {
+  fetchUserPosts,
+  SinglePostType,
+  fetchFeed,
+} from "../../redux/slices/PostSlice";
+import { RootState } from "../../redux/store";
 
 const Feed: React.FC = () => {
-  const [posts, setPosts] = useState<PostData[]>([]);
+  const usersData = useSelector(
+    (state: RootState) => state.authReducer.userData.user
+  );
+  const feed = useSelector((state: RootState) => state.postReducer.posts.feed);
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    const fetchFeed = async () => {
-      const { data } = await axios.get<PostData[]>(
-        "http://localhost:8888/newsfeed/633985ce9dd5cbabfd730733"
-      );
-      setPosts(data);
-      console.log(data);
+    const fetchAllPosts = async () => {
+      await dispatch(fetchUserPosts(usersData?._id));
+      await dispatch(fetchFeed(usersData?._id));
     };
+    fetchAllPosts();
+  }, [feed]);
 
-    fetchFeed();
-  }, []);
-
+  console.log(feed);
   return (
     <div className="feed">
       <div className="feedWrapper">
         <Share />
-        {posts?.map((post, i) => (
+        {feed.map((post, i) => (
           <Post data={post} key={i} />
         ))}
       </div>

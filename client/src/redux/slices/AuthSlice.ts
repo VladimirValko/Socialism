@@ -45,7 +45,7 @@ export const fetchRegister = createAsyncThunk(
   "auth/fetchRegister",
   async (params: RegisterType) => {
     const { data } = await axios.post("/register", params);
-    console.log(data);
+    console.log("fetchRegister fired up");
     return data;
   }
 );
@@ -54,6 +54,7 @@ export const fetchAuth = createAsyncThunk(
   "auth/fetchAuth",
   async (params: AuthType) => {
     const { data } = await axios.post("/login", params);
+    console.log("fetchAuth fired up");
     return data;
   }
 );
@@ -62,6 +63,7 @@ export const fetctEditProfile = createAsyncThunk(
   "auth/fetctEditProfile",
   async (params: EditProfileDataType) => {
     const { data } = await axios.put<UserDataType>(`/users/${params.userId}`, params);
+    console.log(fetctEditProfile);
     return data;
   }
 );
@@ -93,7 +95,7 @@ const authSlice = createSlice({
         state.status = "succese";
       })
       builder.addCase(fetchAuth.rejected, (state) => {
-        console.log("smthng goes wrong");
+        console.log("smthng goes wrong in fetchAuth");
         state.userData.user = null;
       })
       builder.addCase(fetchRegister.pending, (state) => {
@@ -104,7 +106,7 @@ const authSlice = createSlice({
         state.status = "succese";
       })
       builder.addCase(fetchRegister.rejected, (state) => {
-        console.log("smthng goes wrong");
+        console.log("smthng goes wrong in fetchRegister");
         state.userData.user = null;
       })
       builder.addCase(fetctEditProfile.pending, (state) => {
@@ -115,7 +117,7 @@ const authSlice = createSlice({
         state.status = "succese";
       })
       builder.addCase(fetctEditProfile.rejected, (state) => {
-        console.log("smthng goes wrong");
+        console.log("smthng goes wrong in fetctEditProfile");
         state.userData.user = null;
       })
       ;

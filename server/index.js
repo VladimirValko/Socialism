@@ -50,7 +50,7 @@ app.put("/post/:id", PostControllers.updatePost);
 app.delete("/post/:id", PostControllers.deletePost);
 app.put("/post/:id/like", PostControllers.likePost);
 app.get("/newsfeed/:userId", PostControllers.getNewsFeed);
-// app.get("/post/user", PostControllers.getAllUserPosts);
+app.post("/:userId/posts", PostControllers.getAllUserPosts);
 
 app.listen(8888, () => {
   connect();

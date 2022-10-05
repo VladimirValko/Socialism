@@ -1,6 +1,7 @@
 import "./user.css";
 import React, { useEffect, useState } from "react";
 import { fetctEditProfile } from "../../redux/slices/AuthSlice";
+import { SinglePostType } from "../../redux/slices/PostSlice";
 import Share from "../share/Share";
 import { RootState } from "../../redux/store";
 import Post from "../post/Post";
@@ -22,18 +23,38 @@ export type EditProfileDataType = {
 };
 
 const User: React.FC = () => {
+  console.log("user did render");
   const usersData = useSelector(
     (state: RootState) => state.authReducer.userData.user
   );
+  const usersPosts = useSelector(
+    (state: RootState) => state.postReducer.posts.userPosts
+  );
+
   const [isEdditing, setIsEdditing] = useState(false);
   const [profileUserData, setProfileUserData] = useState(usersData);
-  const userId = usersData?._id;
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log(usersPosts);
+  }, [usersPosts]);
+
+  useEffect(() => {
     setProfileUserData(usersData);
   }, [usersData]);
+
+  const handleEditClick = () => {
+    setIsEdditing(!isEdditing);
+  };
+
+  const onClickLogout = () => {
+    if (window.confirm("You are shure you want to logout?")) {
+      dispatch(logOut());
+      navigate("/login", { replace: true });
+      window.localStorage.removeItem("token");
+    }
+  };
 
   const { register, handleSubmit } = useForm({
     defaultValues: {
@@ -52,21 +73,10 @@ const User: React.FC = () => {
     mode: "onChange",
   });
 
-  const handleEditClick = () => {
-    setIsEdditing(!isEdditing);
-  };
-
   const onSubmit = async (userEditData: EditProfileDataType) => {
     await dispatch(fetctEditProfile(userEditData));
     setIsEdditing(!isEdditing);
-  };
-
-  const onClickLogout = () => {
-    if (window.confirm("You are shure you want to logout?")) {
-      dispatch(logOut());
-      navigate("/login", { replace: true });
-      window.localStorage.removeItem("token");
-    }
+    window.alert("Your profile has been changed.");
   };
 
   return (
@@ -141,7 +151,7 @@ const User: React.FC = () => {
                 <input type="text" {...register("hometown")} />
               </div>
               <div className="formBlock">
-                <span>About You</span>
+                <span>Info about you</span>
                 <input type="text" {...register("description")} />
               </div>
               <button type="submit" className="submitProfileEditBtn">
@@ -153,10 +163,11 @@ const User: React.FC = () => {
         <div className="share">
           <Share />
         </div>
-        {/* <Post data={PostData} />/ */}
-        {/* {Posts.map((post) => (
-          <Post data={post} key={post.id} />
-        ))} */}
+        <div className="userPosts">
+          {usersPosts?.map((post, i) => (
+            <Post data={post} image={usersData?.coverPicture} key={i} />
+          ))}
+        </div>
       </div>
     </div>
   );
