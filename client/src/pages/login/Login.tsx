@@ -35,7 +35,7 @@ const Login: React.FC = () => {
       window.localStorage.setItem("token", data.payload.token);
       navigate("/", { replace: true });
     } else {
-      console.log("you shall not pass!");
+      window.alert("you shall not pass!");
     }
   };
 

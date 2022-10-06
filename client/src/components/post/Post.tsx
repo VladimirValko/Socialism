@@ -7,16 +7,16 @@ import Heart from "../../assets/heart.png";
 import { SinglePostType } from "../../redux/slices/PostSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../redux/store";
-import { fetchDeletePost } from "../../redux/slices/PostSlice";
+import { fetchDeletePost, fetchLikePost } from "../../redux/slices/PostSlice";
 import { AppDispatch } from "../../redux/store";
-
-export type DeletePostReqType = {
-  id: string | undefined;
-  userId: string | undefined;
-};
 
 const undefinedPicture =
   "https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg";
+
+export type PostReqType = {
+  userId: string | undefined;
+  id: string | undefined;
+};
 
 type PostProps = {
   data: SinglePostType;
@@ -31,17 +31,26 @@ const Post: React.FC<PostProps> = ({ data, image, userpage }) => {
     (state: RootState) => state.authReducer.userData.user
   );
 
+  const reqData = {
+    userId: usersData?._id,
+    id: data?._id,
+  };
+
   const handleOpenDelete = () => {
     setIsReadyToDelete(!isReadyToDelete);
   };
 
   const deletePost = async () => {
-    const reqData = {
-      userId: usersData?._id,
-      id: data?._id,
-    };
     await dispatch(fetchDeletePost(reqData));
     setIsReadyToDelete(false);
+  };
+
+  const handleLike = async () => {
+    userpage
+      ? window.alert(
+          "Isn't it to narcissistic to like your own posts? At least try to do it in your news feed, bro.."
+        )
+      : await dispatch(fetchLikePost(reqData));
   };
 
   return (
@@ -74,8 +83,15 @@ const Post: React.FC<PostProps> = ({ data, image, userpage }) => {
         </div>
         <div className="postBottom">
           <div className="postBottomLeft">
-            <img className="likeIcon" src={Like} alt="like" />
-            <img className="likeIcon" src={Heart} alt="heart" />
+            <img
+              className="likeIcon"
+              src={Like}
+              alt="like"
+              onClick={() => handleLike()}
+            />
+            {data.likes.includes(usersData?._id || "") && (
+              <img className="likeIcon" src={Heart} alt="heart" />
+            )}
             <span className="postLikeCounter">
               {data?.likes.length} people liked this
             </span>

@@ -1,13 +1,10 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import helmet from "helmet";
-import morgan from "morgan";
 import cors from "cors";
 import * as AuthControllers from "./controllers/authController.js";
 import * as UserControllers from "./controllers/userController.js";
 import * as PostControllers from "./controllers/postController.js";
-import loginValidation from "./auth/authValidation.js";
 
 dotenv.config();
 const app = express();
@@ -36,19 +33,23 @@ mongoose.connection.on("connected", () => {
 });
 
 //ROUTS
+
+//USERS
 app.get("/user/:id", UserControllers.getUser);
 app.post("/register", AuthControllers.register);
 app.post("/login", AuthControllers.login);
 app.put("/users/:userId", UserControllers.update);
 
+//FOLLOW USERS
 app.put("/user/:id/follow", UserControllers.followUser);
 app.put("/user/:id/unfollow", UserControllers.unfollowUser);
 
+//POSTS
 app.get("/post/:id", PostControllers.getPost);
 app.post("/post", PostControllers.createPost);
 app.put("/post/:id", PostControllers.updatePost);
 app.delete("/post", PostControllers.deletePost);
-app.put("/post/:id/like", PostControllers.likePost);
+app.put("/like", PostControllers.likePost);
 app.get("/newsfeed/:userId", PostControllers.getNewsFeed);
 app.post("/:userId/posts", PostControllers.getAllUserPosts);
 

@@ -33,9 +33,6 @@ export const followUser = async (req, res) => {
     const user = await User.findById(req.params.id);
     const currentUser = await User.findById(req.body.userId);
 
-    console.log(user);
-    console.log(currentUser);
-
     if (!user.followers.includes(req.body.userId)) {
       await user.updateOne({
         $push: {
@@ -60,9 +57,6 @@ export const unfollowUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     const currentUser = await User.findById(req.body.userId);
-
-    console.log(user);
-    console.log(currentUser);
 
     if (user.followers.includes(req.body.userId)) {
       await user.updateOne({

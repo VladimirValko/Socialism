@@ -32,9 +32,6 @@ const Feed: React.FC = () => {
 
   useEffect(() => {}, [feed, userPosts]);
 
-  console.log("feed updated");
-  console.log(feed);
-  // Фид не меняется потому что с бекенда в ответ на удаление поста приходят только юзерпостс
   return (
     <div className="feed">
       <div className="feedWrapper">

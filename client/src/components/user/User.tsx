@@ -23,7 +23,6 @@ export type EditProfileDataType = {
 };
 
 const User: React.FC = () => {
-  console.log("user did render");
   const usersData = useSelector(
     (state: RootState) => state.authReducer.userData.user
   );
@@ -36,9 +35,7 @@ const User: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log(usersPosts);
-  }, [usersPosts]);
+  useEffect(() => {}, [usersPosts]);
 
   useEffect(() => {
     setProfileUserData(usersData);

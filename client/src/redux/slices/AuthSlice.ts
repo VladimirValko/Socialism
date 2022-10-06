@@ -45,7 +45,6 @@ export const fetchRegister = createAsyncThunk(
   "auth/fetchRegister",
   async (params: RegisterType) => {
     const { data } = await axios.post("/register", params);
-    console.log("fetchRegister fired up");
     return data;
   }
 );
@@ -54,7 +53,6 @@ export const fetchAuth = createAsyncThunk(
   "auth/fetchAuth",
   async (params: AuthType) => {
     const { data } = await axios.post("/login", params);
-    console.log("fetchAuth fired up");
     return data;
   }
 );
@@ -63,7 +61,6 @@ export const fetctEditProfile = createAsyncThunk(
   "auth/fetctEditProfile",
   async (params: EditProfileDataType) => {
     const { data } = await axios.put<UserDataType>(`/users/${params.userId}`, params);
-    console.log(fetctEditProfile);
     return data;
   }
 );
@@ -83,7 +80,6 @@ const authSlice = createSlice({
   reducers: {
     logOut: (state) => {
       state.userData.user = null;
-      console.log("loged-out");
     },
   },
   extraReducers: (builder) => {

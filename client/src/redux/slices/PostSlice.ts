@@ -2,8 +2,10 @@ import { reqType } from './../../components/share/Share';
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../utils/axios";
 import { RootState } from "../store";
-import { DeletePostReqType } from '../../components/post/Post';
+import { PostReqType } from '../../components/post/Post';
 
+
+//TYPES
 export type SinglePostType = {
   createdAt: string;
   _id: string;
@@ -25,6 +27,8 @@ type PostStateType = {
   status: string;
 }
 
+
+// THUNKS
 export const fetchUserPosts = createAsyncThunk(
   "auth/fetchUserPosts",
   async (params: string | undefined) => {
@@ -36,7 +40,6 @@ export const fetchUserPosts = createAsyncThunk(
 export const fetchFeed = createAsyncThunk(
   "auth/fetchFeed",
   async (params: string | undefined) => {
-    console.log("fetchFeed fired")
     const { data } = await axios.get<SinglePostType[]>(`/newsfeed/${params}`);
     return data.sort((a, b) => (b.createdAt > a.createdAt ? 1 : -1));
   }
@@ -45,24 +48,31 @@ export const fetchFeed = createAsyncThunk(
 export const fetchAddPost = createAsyncThunk(
   "auth/fetchAddPost",
   async (params: reqType) => {
-    console.log("fetchAddPost fired");
-    console.log(params);
     const { data } = await axios.post("/post", params);
     return data.sort((a:any, b:any) => (b.createdAt > a.createdAt ? 1 : -1));
   }
 );
 
 export const fetchDeletePost = createAsyncThunk(
-  //DATA: PARAMS somehow is needed for typescript axios delete method =/
+  //some weird shit here, googled on stackoverflow
+  //DATA: PARAMS is somehow needed for typescript axios delete method =/
   "auth/fetchDeletePost",
-  async (params: DeletePostReqType) => {
-    console.log("fetchDeletePost fired");
+  async (params: PostReqType) => {
     const { data } = await axios.delete("/post", {data: params});
-    console.log(data, "reseved data from DeletePost")
     return data.sort((a:any, b:any) => (b.createdAt > a.createdAt ? 1 : -1));
   }
 );
 
+export const fetchLikePost = createAsyncThunk(
+  "auth/fetchLikePost",
+  async (params: PostReqType) => {
+    const { data } = await axios.put("/like", params);
+    return data.sort((a:any, b:any) => (b.createdAt > a.createdAt ? 1 : -1));
+  }
+);
+
+
+// STATE
 const initialState: PostStateType = {
   posts: {
     userPosts: [],
@@ -71,16 +81,14 @@ const initialState: PostStateType = {
   status: "loading",
 };
 
+
+// SLICE
 const postSlice = createSlice({
   name: "post",
   initialState,
-  reducers: {
-    // logOut: (state) => {
-    //   state.userData.user = null;
-    //   console.log("loged-out");
-    // },
-  },
+  reducers: {},
   extraReducers: (builder) => {
+    //FETCH USER POSTS
     builder.addCase(fetchUserPosts.pending, (state) => {
       state.status = "loading";
     })
@@ -91,6 +99,7 @@ const postSlice = createSlice({
     builder.addCase(fetchUserPosts.rejected, () => {
       console.log("smthng goes wrong in fetchUserPosts");
     })
+      // FETCH FEED
       builder.addCase(fetchFeed.pending, (state) => {
         state.status = "loading";
       })
@@ -101,6 +110,7 @@ const postSlice = createSlice({
       builder.addCase(fetchFeed.rejected, () => {
       console.log("smthng goes wrong in fetchFeed");
       })
+      // FETCH ADD POST
         builder.addCase(fetchAddPost.pending, (state) => {
           state.status = "loading";
         })
@@ -111,6 +121,7 @@ const postSlice = createSlice({
         builder.addCase(fetchAddPost.rejected, () => {
           console.log("smthng goes wrong in fetchAddPost");
         })
+          // FETCH DELETE POST
           builder.addCase(fetchDeletePost.pending, (state) => {
             state.status = "loading";
           })
@@ -121,6 +132,17 @@ const postSlice = createSlice({
           builder.addCase(fetchDeletePost.rejected, () => {
             console.log("smthng goes wrong in fetchDeletePost");
           })
+            // FETCH LIKE - DISLIKE
+            builder.addCase(fetchLikePost.pending, (state) => {
+              state.status = "loading";
+            })
+            builder.addCase(fetchLikePost.fulfilled, (state, action) => {
+              state.posts.feed = action.payload
+              state.status = "succese";
+            })
+            builder.addCase(fetchLikePost.rejected, () => {
+              console.log("smthng goes wrong in fetchLikePost");
+            })
       ;
   },
 });
