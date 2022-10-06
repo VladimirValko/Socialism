@@ -47,7 +47,7 @@ app.put("/user/:id/unfollow", UserControllers.unfollowUser);
 app.get("/post/:id", PostControllers.getPost);
 app.post("/post", PostControllers.createPost);
 app.put("/post/:id", PostControllers.updatePost);
-app.delete("/post/:id", PostControllers.deletePost);
+app.delete("/post", PostControllers.deletePost);
 app.put("/post/:id/like", PostControllers.likePost);
 app.get("/newsfeed/:userId", PostControllers.getNewsFeed);
 app.post("/:userId/posts", PostControllers.getAllUserPosts);

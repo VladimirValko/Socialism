@@ -37,13 +37,14 @@ export const updatePost = async (req, res) => {
 //DELETE
 export const deletePost = async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id);
-    console.log(post);
+    const post = await Post.findById(req.body.id);
 
     if (post.userId === req.body.userId) {
       await post.deleteOne();
+      const currentUser = await User.findById(req.body.userId);
+      const usersPosts = await Post.find({ userId: currentUser._id });
 
-      res.status(200).json("post has been deleted");
+      res.status(200).json(usersPosts);
     } else {
       res.status(403).json("you can not delete this post");
     }

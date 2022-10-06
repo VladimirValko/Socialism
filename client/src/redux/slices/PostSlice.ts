@@ -2,6 +2,7 @@ import { reqType } from './../../components/share/Share';
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../utils/axios";
 import { RootState } from "../store";
+import { DeletePostReqType } from '../../components/post/Post';
 
 export type SinglePostType = {
   createdAt: string;
@@ -35,6 +36,7 @@ export const fetchUserPosts = createAsyncThunk(
 export const fetchFeed = createAsyncThunk(
   "auth/fetchFeed",
   async (params: string | undefined) => {
+    console.log("fetchFeed fired")
     const { data } = await axios.get<SinglePostType[]>(`/newsfeed/${params}`);
     return data.sort((a, b) => (b.createdAt > a.createdAt ? 1 : -1));
   }
@@ -46,6 +48,17 @@ export const fetchAddPost = createAsyncThunk(
     console.log("fetchAddPost fired");
     console.log(params);
     const { data } = await axios.post("/post", params);
+    return data.sort((a:any, b:any) => (b.createdAt > a.createdAt ? 1 : -1));
+  }
+);
+
+export const fetchDeletePost = createAsyncThunk(
+  //DATA: PARAMS somehow is needed for typescript axios delete method =/
+  "auth/fetchDeletePost",
+  async (params: DeletePostReqType) => {
+    console.log("fetchDeletePost fired");
+    const { data } = await axios.delete("/post", {data: params});
+    console.log(data, "reseved data from DeletePost")
     return data.sort((a:any, b:any) => (b.createdAt > a.createdAt ? 1 : -1));
   }
 );
@@ -98,6 +111,16 @@ const postSlice = createSlice({
         builder.addCase(fetchAddPost.rejected, () => {
           console.log("smthng goes wrong in fetchAddPost");
         })
+          builder.addCase(fetchDeletePost.pending, (state) => {
+            state.status = "loading";
+          })
+          builder.addCase(fetchDeletePost.fulfilled, (state, action) => {
+            state.posts.userPosts = action.payload
+            state.status = "succese";
+          })
+          builder.addCase(fetchDeletePost.rejected, () => {
+            console.log("smthng goes wrong in fetchDeletePost");
+          })
       ;
   },
 });

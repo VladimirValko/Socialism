@@ -165,7 +165,12 @@ const User: React.FC = () => {
         </div>
         <div className="userPosts">
           {usersPosts?.map((post, i) => (
-            <Post data={post} image={usersData?.coverPicture} key={i} />
+            <Post
+              data={post}
+              image={usersData?.coverPicture}
+              key={i}
+              userpage={true}
+            />
           ))}
         </div>
       </div>

@@ -5,6 +5,15 @@ import { TiDelete } from "react-icons/ti";
 import Like from "../../assets/like.png";
 import Heart from "../../assets/heart.png";
 import { SinglePostType } from "../../redux/slices/PostSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../redux/store";
+import { fetchDeletePost } from "../../redux/slices/PostSlice";
+import { AppDispatch } from "../../redux/store";
+
+export type DeletePostReqType = {
+  id: string | undefined;
+  userId: string | undefined;
+};
 
 const undefinedPicture =
   "https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg";
@@ -12,17 +21,26 @@ const undefinedPicture =
 type PostProps = {
   data: SinglePostType;
   image?: string;
+  userpage?: boolean;
 };
 
-const Post: React.FC<PostProps> = ({ data, image }) => {
+const Post: React.FC<PostProps> = ({ data, image, userpage }) => {
+  const dispatch = useDispatch<AppDispatch>();
   const [isReadyToDelete, setIsReadyToDelete] = useState(false);
+  const usersData = useSelector(
+    (state: RootState) => state.authReducer.userData.user
+  );
 
   const handleOpenDelete = () => {
     setIsReadyToDelete(!isReadyToDelete);
   };
 
-  const deletePost = () => {
-    console.log("ha-ha, Deleted!!!");
+  const deletePost = async () => {
+    const reqData = {
+      userId: usersData?._id,
+      id: data?._id,
+    };
+    await dispatch(fetchDeletePost(reqData));
     setIsReadyToDelete(false);
   };
 
@@ -38,15 +56,17 @@ const Post: React.FC<PostProps> = ({ data, image }) => {
             />
             <span className="postUserName">{data.userName}</span>
           </div>
-          <div className="postTopRight">
-            <FiMoreVertical onClick={() => handleOpenDelete()} />
-            {isReadyToDelete && (
-              <div className="deleteMessage" onClick={() => deletePost()}>
-                <TiDelete className="deleteIcon" />
-                <span>Delete this post?</span>
-              </div>
-            )}
-          </div>
+          {userpage && (
+            <div className="postTopRight">
+              <FiMoreVertical onClick={() => handleOpenDelete()} />
+              {isReadyToDelete && (
+                <div className="deleteMessage" onClick={() => deletePost()}>
+                  <TiDelete className="deleteIcon" />
+                  <span>Delete this post?</span>
+                </div>
+              )}
+            </div>
+          )}
         </div>
         <div className="postBody">
           <span className="postText">{data?.desription || ""}</span>

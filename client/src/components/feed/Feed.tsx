@@ -16,6 +16,10 @@ const Feed: React.FC = () => {
     (state: RootState) => state.authReducer.userData.user
   );
   const feed = useSelector((state: RootState) => state.postReducer.posts.feed);
+  const userPosts = useSelector(
+    (state: RootState) => state.postReducer.posts.userPosts
+  );
+
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
@@ -24,15 +28,19 @@ const Feed: React.FC = () => {
       await dispatch(fetchFeed(usersData?._id));
     };
     fetchAllPosts();
-  }, [feed]);
+  }, []);
 
+  useEffect(() => {}, [feed, userPosts]);
+
+  console.log("feed updated");
   console.log(feed);
+  // Фид не меняется потому что с бекенда в ответ на удаление поста приходят только юзерпостс
   return (
     <div className="feed">
       <div className="feedWrapper">
         <Share />
         {feed.map((post, i) => (
-          <Post data={post} key={i} />
+          <Post data={post} key={i} userpage={false} />
         ))}
       </div>
     </div>
