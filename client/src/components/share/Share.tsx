@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./share.css";
 import { BsImages } from "react-icons/bs";
 import { GoLocation } from "react-icons/go";
@@ -8,11 +8,12 @@ import { RootState } from "../../redux/store";
 import { useForm } from "react-hook-form";
 import { fetchAddPost } from "../../redux/slices/PostSlice";
 import { AppDispatch } from "../../redux/store";
+import { undefinedPicture } from "../post/Post";
 
 export type reqType = {
   userId: string;
   userName: string;
-  userPicture: string;
+  userPicture: string | undefined;
   desription: string;
   image: string;
   likes: string[];
@@ -25,13 +26,13 @@ const Share: React.FC = () => {
     (state: RootState) => state.authReducer.userData.user
   );
 
+  useEffect(() => {}, [isAddingPicture]);
+
   const { register, handleSubmit, resetField } = useForm({
     defaultValues: {
       userId: usersData?._id || "",
       userName: usersData?.username || "John Smith",
-      userPicture:
-        usersData?.coverPicture ||
-        "https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?w=2000",
+      userPicture: usersData?.coverPicture,
       desription: "",
       image: "",
       relationship: usersData?.relationship || "Single",
@@ -45,6 +46,7 @@ const Share: React.FC = () => {
     await dispatch(fetchAddPost(newPostData));
     setIsAddingPicture(false);
     resetField("desription");
+    resetField("image");
   };
 
   return (
@@ -54,7 +56,7 @@ const Share: React.FC = () => {
           <div className="shareTop">
             <img
               className="shareProfileImg"
-              src={usersData?.coverPicture}
+              src={usersData?.coverPicture || undefinedPicture}
               alt="profile"
             />
             <input

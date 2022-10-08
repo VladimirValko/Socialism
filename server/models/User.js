@@ -23,8 +23,6 @@ const UserSchema = new mongoose.Schema(
     },
     coverPicture: {
       type: String,
-      default:
-        "https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?w=2000",
     },
     followers: {
       type: Array,

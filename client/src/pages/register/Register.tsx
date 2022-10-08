@@ -16,12 +16,7 @@ const Register = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
-  const {
-    register,
-    handleSubmit,
-    setError,
-    formState: { errors, isValid },
-  } = useForm({
+  const { register, handleSubmit } = useForm({
     defaultValues: {
       username: "",
       email: "",

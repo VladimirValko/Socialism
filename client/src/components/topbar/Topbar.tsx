@@ -8,6 +8,7 @@ import {
 import { IoMdNotifications } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
+import { undefinedPicture } from "../post/Post";
 
 const Topbar: React.FC = () => {
   const user = useSelector(
@@ -52,7 +53,7 @@ const Topbar: React.FC = () => {
         <div>
           <Link to={`/profile/${user?._id}`} style={{ textDecoration: "none" }}>
             <img
-              src={user?.coverPicture}
+              src={user?.coverPicture || undefinedPicture}
               alt="profile"
               className="topbarImage"
             />

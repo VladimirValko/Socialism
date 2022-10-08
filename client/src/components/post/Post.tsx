@@ -10,7 +10,7 @@ import { RootState } from "../../redux/store";
 import { fetchDeletePost, fetchLikePost } from "../../redux/slices/PostSlice";
 import { AppDispatch } from "../../redux/store";
 
-const undefinedPicture =
+export const undefinedPicture =
   "https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg";
 
 export type PostReqType = {
@@ -24,7 +24,7 @@ type PostProps = {
   userpage?: boolean;
 };
 
-const Post: React.FC<PostProps> = ({ data, image, userpage }) => {
+const Post: React.FC<PostProps> = ({ data, userpage }) => {
   const dispatch = useDispatch<AppDispatch>();
   const [isReadyToDelete, setIsReadyToDelete] = useState(false);
   const usersData = useSelector(
@@ -60,7 +60,7 @@ const Post: React.FC<PostProps> = ({ data, image, userpage }) => {
           <div className="postTopLeft">
             <img
               className="PostProfileImg"
-              src={image || data.userPicture || undefinedPicture}
+              src={data.userPicture || undefinedPicture}
               alt="profile"
             />
             <span className="postUserName">{data.userName}</span>

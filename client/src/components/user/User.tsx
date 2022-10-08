@@ -11,10 +11,11 @@ import { useNavigate } from "react-router-dom";
 import { AiOutlineEdit } from "react-icons/ai";
 import { useForm } from "react-hook-form";
 import { AppDispatch } from "../../redux/store";
+import { undefinedPicture } from "../post/Post";
 
 export type EditProfileDataType = {
   username: string;
-  coverPicture: string;
+  coverPicture: string | undefined;
   description: string;
   hometown: string;
   relationship: string;
@@ -26,16 +27,14 @@ const User: React.FC = () => {
   const usersData = useSelector(
     (state: RootState) => state.authReducer.userData.user
   );
-  const usersPosts = useSelector(
-    (state: RootState) => state.postReducer.posts.userPosts
-  );
+  const feed = useSelector((state: RootState) => state.postReducer.posts);
 
   const [isEdditing, setIsEdditing] = useState(false);
   const [profileUserData, setProfileUserData] = useState(usersData);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  useEffect(() => {}, [usersPosts]);
+  useEffect(() => {}, [feed]);
 
   useEffect(() => {
     setProfileUserData(usersData);
@@ -56,9 +55,7 @@ const User: React.FC = () => {
   const { register, handleSubmit } = useForm({
     defaultValues: {
       username: usersData?.username || "John Smith",
-      coverPicture:
-        usersData?.coverPicture ||
-        "https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?w=2000",
+      coverPicture: usersData?.coverPicture,
       description:
         usersData?.description ||
         "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odio sint dicta ab ducimus voluptatum architecto quaerat, id labore laudantium eum assumenda vero adipisci dolorem delectus repudiandae quidem nobis quod voluptate, id labore laudantium eum assumenda vero adipisci dolorem delectus repudiandae quidem nobis quod voluptate.",
@@ -80,7 +77,7 @@ const User: React.FC = () => {
     <div className="user">
       <div className="userLeft">
         <div className="profileImg">
-          <img src={profileUserData?.coverPicture} alt="" />
+          <img src={profileUserData?.coverPicture || undefinedPicture} alt="" />
         </div>
         <div className="profileMedia"></div>
       </div>
@@ -161,14 +158,16 @@ const User: React.FC = () => {
           <Share />
         </div>
         <div className="userPosts">
-          {usersPosts?.map((post, i) => (
-            <Post
-              data={post}
-              image={usersData?.coverPicture}
-              key={i}
-              userpage={true}
-            />
-          ))}
+          {feed
+            ?.filter((post) => post._id !== usersData?._id)
+            .map((post, i) => (
+              <Post
+                data={post}
+                image={usersData?.coverPicture}
+                key={i}
+                userpage={true}
+              />
+            ))}
         </div>
       </div>
     </div>

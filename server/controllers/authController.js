@@ -8,16 +8,16 @@ export const register = async (req, res) => {
   const hash = bcrypt.hashSync(req.body.password, salt);
 
   try {
-    const newUser = new User({
+    const user = new User({
       username: req.body.username,
       password: hash,
       email: req.body.email,
     });
-    await newUser.save();
+    await user.save();
 
     const token = jwt.sign(
       {
-        _id: newUser._id,
+        _id: user._id,
       },
       "secret123",
       {
@@ -25,7 +25,7 @@ export const register = async (req, res) => {
       }
     );
 
-    res.status(201).json({ newUser, token });
+    res.status(201).json({ user, token });
   } catch (error) {
     console.log(error);
   }

@@ -6,8 +6,8 @@ import Online from "../online/Online";
 export type FakeUser = {
   id: number;
   profilePicture: string;
-  username: string
-}
+  username: string;
+};
 
 const fakeUsers: FakeUser[] = Users;
 
@@ -17,7 +17,7 @@ const Rightbar: React.FC = () => {
       <div className="rightbarWrapper">
         <div className="ad">
           <img
-            src="https://i.redd.it/zqttp05iv0k51.jpg"
+            src="https://i.pinimg.com/originals/83/61/22/83612299c51a78df8600c33baf542ab6.jpg"
             alt=""
             className="adImg"
           />

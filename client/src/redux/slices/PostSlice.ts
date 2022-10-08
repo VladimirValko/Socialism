@@ -17,25 +17,20 @@ export type SinglePostType = {
   likes: string[];
 }
 
-type PostsType = {
-  userPosts: SinglePostType [];
-  feed: SinglePostType [];
-}
-
 type PostStateType = {
-  posts: PostsType;
+  posts: SinglePostType[];
   status: string;
 }
 
 
 // THUNKS
-export const fetchUserPosts = createAsyncThunk(
-  "auth/fetchUserPosts",
-  async (params: string | undefined) => {
-    const { data } = await axios.post<SinglePostType[]>(`/${params}/posts`);
-    return data.sort((a, b) => (b.createdAt > a.createdAt ? 1 : -1));
-  }
-);
+// export const fetchUserPosts = createAsyncThunk(
+//   "auth/fetchUserPosts",
+//   async (params: string | undefined) => {
+//     const { data } = await axios.post<SinglePostType[]>(`/${params}/posts`);
+//     return data.sort((a, b) => (b.createdAt > a.createdAt ? 1 : -1));
+//   }
+// );
 
 export const fetchFeed = createAsyncThunk(
   "auth/fetchFeed",
@@ -49,13 +44,15 @@ export const fetchAddPost = createAsyncThunk(
   "auth/fetchAddPost",
   async (params: reqType) => {
     const { data } = await axios.post("/post", params);
+    console.log(data, "data from fetch add posts");
     return data.sort((a:any, b:any) => (b.createdAt > a.createdAt ? 1 : -1));
   }
 );
 
 export const fetchDeletePost = createAsyncThunk(
-  //some weird shit here, googled on stackoverflow
-  //DATA: PARAMS is somehow needed for typescript axios delete method =/
+  //some weird shit here, googled it on stackoverflow
+  //axios.delete takes two argument, first is a url path and second is config.
+  //You need to wrap your params object another object which has a data property.
   "auth/fetchDeletePost",
   async (params: PostReqType) => {
     const { data } = await axios.delete("/post", {data: params});
@@ -74,10 +71,7 @@ export const fetchLikePost = createAsyncThunk(
 
 // STATE
 const initialState: PostStateType = {
-  posts: {
-    userPosts: [],
-    feed: [],
-  },
+  posts: [],
   status: "loading",
 };
 
@@ -89,22 +83,22 @@ const postSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     //FETCH USER POSTS
-    builder.addCase(fetchUserPosts.pending, (state) => {
-      state.status = "loading";
-    })
-    builder.addCase(fetchUserPosts.fulfilled, (state: PostStateType, action) => {
-      state.posts.userPosts = action.payload;
-      state.status = "succese";
-    })
-    builder.addCase(fetchUserPosts.rejected, () => {
-      console.log("smthng goes wrong in fetchUserPosts");
-    })
+    // builder.addCase(fetchUserPosts.pending, (state) => {
+    //   state.status = "loading";
+    // })
+    // builder.addCase(fetchUserPosts.fulfilled, (state: PostStateType, action) => {
+    //   state.posts = action.payload;
+    //   state.status = "succese";
+    // })
+    // builder.addCase(fetchUserPosts.rejected, () => {
+    //   console.log("smthng goes wrong in fetchUserPosts");
+    // })
       // FETCH FEED
       builder.addCase(fetchFeed.pending, (state) => {
         state.status = "loading";
       })
       builder.addCase(fetchFeed.fulfilled, (state, action) => {
-        state.posts.feed = action.payload;
+        state.posts = action.payload;
         state.status = "succese";
       })
       builder.addCase(fetchFeed.rejected, () => {
@@ -115,8 +109,9 @@ const postSlice = createSlice({
           state.status = "loading";
         })
         builder.addCase(fetchAddPost.fulfilled, (state, action) => {
-          state.posts.userPosts = action.payload
-          state.status = "succese";
+          console.log(action.payload);
+          state.posts = action.payload
+          // state.status = "succese";
         })
         builder.addCase(fetchAddPost.rejected, () => {
           console.log("smthng goes wrong in fetchAddPost");
@@ -126,7 +121,7 @@ const postSlice = createSlice({
             state.status = "loading";
           })
           builder.addCase(fetchDeletePost.fulfilled, (state, action) => {
-            state.posts.userPosts = action.payload
+            state.posts = action.payload
             state.status = "succese";
           })
           builder.addCase(fetchDeletePost.rejected, () => {
@@ -137,7 +132,7 @@ const postSlice = createSlice({
               state.status = "loading";
             })
             builder.addCase(fetchLikePost.fulfilled, (state, action) => {
-              state.posts.feed = action.payload
+              state.posts = action.payload
               state.status = "succese";
             })
             builder.addCase(fetchLikePost.rejected, () => {
