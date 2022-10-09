@@ -5,7 +5,7 @@ import User from "../models/User.js";
 export const createPost = async (req, res) => {
   try {
     const newPost = new Post(req.body);
-    const savedPost = await newPost.save();
+    await newPost.save();
 
     const currentUser = await User.findById(req.body.userId);
     const usersPosts = await Post.find({ userId: currentUser._id });
@@ -106,13 +106,11 @@ export const getPost = async (req, res) => {
   }
 };
 
-//ALLUSERPOSTS
-export const getAllUserPosts = async (req, res) => {
+//GETALLPOSTS
+export const getAllPosts = async (req, res) => {
   try {
-    const currentUser = await User.findById(req.params.userId);
-    const usersPosts = await Post.find({ userId: currentUser._id });
-
-    res.status(200).json(usersPosts);
+    const posts = await Post.find();
+    res.status(200).json(posts);
   } catch (error) {
     return res.status(500).json(error);
   }

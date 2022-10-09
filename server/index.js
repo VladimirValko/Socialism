@@ -35,10 +35,12 @@ mongoose.connection.on("connected", () => {
 //ROUTS
 
 //USERS
-app.get("/user/:id", UserControllers.getUser);
+// app.get("/user/:id", UserControllers.getUser);
 app.post("/register", AuthControllers.register);
 app.post("/login", AuthControllers.login);
 app.put("/users/:userId", UserControllers.update);
+app.get("/users", UserControllers.getAllUsers);
+//ДОБАВИТЬ ГЕТ ОЛ ЮЗЕРЗ
 
 //FOLLOW USERS
 app.put("/user/:id/follow", UserControllers.followUser);
@@ -46,12 +48,12 @@ app.put("/user/:id/unfollow", UserControllers.unfollowUser);
 
 //POSTS
 app.get("/post/:id", PostControllers.getPost);
+app.get("/post", PostControllers.getAllPosts);
 app.post("/post", PostControllers.createPost);
 app.put("/post/:id", PostControllers.updatePost);
 app.delete("/post", PostControllers.deletePost);
 app.put("/like", PostControllers.likePost);
 app.get("/newsfeed/:userId", PostControllers.getNewsFeed);
-app.post("/:userId/posts", PostControllers.getAllUserPosts);
 
 app.listen(8888, () => {
   connect();

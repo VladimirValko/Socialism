@@ -20,7 +20,9 @@ const Sidebar: React.FC = () => {
           </li>
           <li className="leftbarListItem">
             <FaUserFriends className="leftbarListItemIcon" />
-            <span className="leftbarListItemText">People</span>
+            <Link to="/users" style={{ textDecoration: "none" }}>
+              <span className="leftbarListItemText link">People</span>
+            </Link>
           </li>
           <li className="leftbarListItem">
             <BsFillChatLeftTextFill className="leftbarListItemIcon" />

@@ -13,16 +13,11 @@ export const update = async (req, res) => {
   }
 };
 
-export const getUser = async (req, res) => {
+export const getAllUsers = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
-    const { password, isAdmin, ...notPrivateInfo } = user._doc;
+    const allUsers = await User.find();
 
-    if (!user) {
-      res.status(403).json("No such user..");
-    }
-
-    res.status(200).json(notPrivateInfo);
+    res.status(200).json(allUsers);
   } catch (error) {
     res.status(500).json(error);
   }

@@ -1,15 +1,14 @@
 import "./user.css";
 import React, { useEffect, useState } from "react";
-import { fetctEditProfile } from "../../redux/slices/AuthSlice";
-import { SinglePostType } from "../../redux/slices/PostSlice";
 import Share from "../share/Share";
-import { RootState } from "../../redux/store";
 import Post from "../post/Post";
+import { fetctEditProfile } from "../../redux/slices/AuthSlice";
+import { RootState } from "../../redux/store";
 import { logOut } from "../../redux/slices/AuthSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { AiOutlineEdit } from "react-icons/ai";
+import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { AiOutlineEdit } from "react-icons/ai";
 import { AppDispatch } from "../../redux/store";
 import { undefinedPicture } from "../post/Post";
 
@@ -23,22 +22,31 @@ export type EditProfileDataType = {
   userId: string | undefined;
 };
 
-const User: React.FC = () => {
-  const usersData = useSelector(
-    (state: RootState) => state.authReducer.userData.user
-  );
-  const feed = useSelector((state: RootState) => state.postReducer.posts);
+type UserProps = {
+  isMyPage: boolean;
+};
 
+const User: React.FC<UserProps> = ({ isMyPage }) => {
+  const { userId } = useParams();
   const [isEdditing, setIsEdditing] = useState(false);
-  const [profileUserData, setProfileUserData] = useState(usersData);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const logedInUser = useSelector(
+    (state: RootState) => state.authReducer.userData?.user
+  );
+  const usersData = useSelector((state: RootState) => state.userReducer.users);
+  const user = usersData.filter((user) => user._id === userId)[0];
+  const feed = useSelector((state: RootState) => state.postReducer.posts);
+  const [profileUserData, setProfileUserData] = useState(logedInUser);
+  const amFollowing = logedInUser?.followins.includes(user._id);
+
+  console.log(amFollowing);
 
   useEffect(() => {}, [feed]);
 
   useEffect(() => {
-    setProfileUserData(usersData);
-  }, [usersData]);
+    setProfileUserData(logedInUser);
+  }, [logedInUser]);
 
   const handleEditClick = () => {
     setIsEdditing(!isEdditing);
@@ -52,17 +60,19 @@ const User: React.FC = () => {
     }
   };
 
+  const followUnfollow = () => {};
+
   const { register, handleSubmit } = useForm({
     defaultValues: {
-      username: usersData?.username || "John Smith",
-      coverPicture: usersData?.coverPicture,
+      username: user?.username || "John Smith",
+      coverPicture: user?.coverPicture,
       description:
-        usersData?.description ||
+        user?.description ||
         "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odio sint dicta ab ducimus voluptatum architecto quaerat, id labore laudantium eum assumenda vero adipisci dolorem delectus repudiandae quidem nobis quod voluptate, id labore laudantium eum assumenda vero adipisci dolorem delectus repudiandae quidem nobis quod voluptate.",
-      hometown: usersData?.hometown || "London",
-      relationship: usersData?.relationship || "Single",
-      birthday: usersData?.birthday || "10.03.2000",
-      userId: usersData?._id,
+      hometown: user?.hometown || "London",
+      relationship: user?.relationship || "Single",
+      birthday: user?.birthday || "10.03.2000",
+      userId: user?._id,
     },
     mode: "onChange",
   });
@@ -77,7 +87,7 @@ const User: React.FC = () => {
     <div className="user">
       <div className="userLeft">
         <div className="profileImg">
-          <img src={profileUserData?.coverPicture || undefinedPicture} alt="" />
+          <img src={user?.coverPicture || undefinedPicture} alt="" />
         </div>
         <div className="profileMedia"></div>
       </div>
@@ -86,32 +96,40 @@ const User: React.FC = () => {
           <div className="nameLogout">
             <div className="userName">
               <span>
-                <b>{profileUserData?.username}</b>
+                <b>{user?.username}</b>
               </span>
-              <div className="editProfile" onClick={handleEditClick}>
-                <AiOutlineEdit className="editProfileIcon" />
-                <span className="editProfileText">Edit profile</span>
-              </div>
+              {isMyPage && (
+                <div className="editProfile" onClick={handleEditClick}>
+                  <AiOutlineEdit className="editProfileIcon" />
+                  <span className="editProfileText">Edit profile</span>
+                </div>
+              )}
             </div>
-            <button className="logoutBtn" onClick={() => onClickLogout()}>
-              Log out
-            </button>
+            {isMyPage ? (
+              <button className="logoutBtn" onClick={() => onClickLogout()}>
+                Log out
+              </button>
+            ) : (
+              <button className="logoutBtn" onClick={() => followUnfollow()}>
+                {amFollowing ? "Unfollow User" : "Follow User"}
+              </button>
+            )}
           </div>
           <div className="mainInfo">
             <span>
-              Relationship: <b>{profileUserData?.relationship}</b>
+              Relationship: <b>{user?.relationship}</b>
             </span>
 
             <span className="birthday">
-              Birthday <b>{profileUserData?.birthday}</b>
+              Birthday <b>{user?.birthday}</b>
             </span>
 
             <span>
-              My hometown is <b>{profileUserData?.hometown}</b>
+              My hometown is <b>{user?.hometown}</b>
             </span>
           </div>
           <div className="dexcriptionContainer">
-            <span>{profileUserData?.description}</span>
+            <span>{user?.description}</span>
           </div>
         </div>
         {isEdditing && (
@@ -154,16 +172,18 @@ const User: React.FC = () => {
             </form>
           </div>
         )}
-        <div className="share">
-          <Share />
-        </div>
+        {isMyPage && (
+          <div className="share">
+            <Share />
+          </div>
+        )}
         <div className="userPosts">
           {feed
-            ?.filter((post) => post._id !== usersData?._id)
+            ?.filter((post) => post.userId === user._id)
             .map((post, i) => (
               <Post
                 data={post}
-                image={usersData?.coverPicture}
+                image={user?.coverPicture}
                 key={i}
                 userpage={true}
               />

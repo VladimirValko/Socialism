@@ -1,6 +1,7 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import { authReducer } from './slices/AuthSlice';
 import { postReducer } from './slices/PostSlice';
+import { userReducer } from './slices/UserSlice';
 import { useDispatch } from 'react-redux';
 import {
   persistStore,
@@ -20,7 +21,8 @@ const persistConfig = {
 };
 const rootReducer = combineReducers({
   authReducer: authReducer,
-  postReducer: postReducer
+  postReducer: postReducer,
+  userReducer: userReducer,
   // все новые редюсеры надо добавлять сюда
 });
 
