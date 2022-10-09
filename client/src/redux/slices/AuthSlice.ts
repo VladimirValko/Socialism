@@ -28,9 +28,9 @@ type AuthType = {
   password: string;
 }
 
-type AuthResponse = {
-  token: string;
-  user: UserDataType;
+type FollowType = {
+  id: string | undefined;
+  userId: string | undefined;
 }
 
 type StateType = {
@@ -65,6 +65,22 @@ export const fetctEditProfile = createAsyncThunk(
   }
 );
 
+export const fetchFollowUser = createAsyncThunk(
+  "auth/fetchFollowUsers",
+  async (params: FollowType) => {
+    const { data } = await axios.put<UserDataType>(`/user/${params.id}/follow`, params);
+    return data
+  }
+);
+
+export const fetchUnfollowUser = createAsyncThunk(
+  "auth/fetchUnfollowUsers",
+  async (params: FollowType) => {
+    const { data } = await axios.put<UserDataType>(`/user/${params.id}/unfollow`, params);
+    return data
+  }
+);
+
 const initialState: StateType = {
   userData: {
     user: null,
@@ -83,17 +99,19 @@ const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    // FETCH AUTH
     builder.addCase(fetchAuth.pending, (state) => {
       state.status = "loading";
     })
-      builder.addCase(fetchAuth.fulfilled, (state: StateType, action) => {
-        state.userData = action.payload;
-        state.status = "succese";
-      })
-      builder.addCase(fetchAuth.rejected, (state) => {
-        console.log("smthng goes wrong in fetchAuth");
-        state.userData.user = null;
-      })
+    builder.addCase(fetchAuth.fulfilled, (state: StateType, action) => {
+      state.userData = action.payload;
+      state.status = "succese";
+    })
+    builder.addCase(fetchAuth.rejected, (state) => {
+      console.log("smthng goes wrong in fetchAuth");
+      state.userData.user = null;
+    })
+      // FETCH REGISTER
       builder.addCase(fetchRegister.pending, (state) => {
         state.status = "loading";
       })
@@ -105,17 +123,42 @@ const authSlice = createSlice({
         console.log("smthng goes wrong in fetchRegister");
         state.userData.user = null;
       })
-      builder.addCase(fetctEditProfile.pending, (state) => {
-        state.status = "loading";
-      })
-      builder.addCase(fetctEditProfile.fulfilled, (state, action) => {
-        state.userData.user = action.payload;
-        state.status = "succese";
-      })
-      builder.addCase(fetctEditProfile.rejected, (state) => {
-        console.log("smthng goes wrong in fetctEditProfile");
-        state.userData.user = null;
-      })
+        // FETCH EDIT PROFILE
+        builder.addCase(fetctEditProfile.pending, (state) => {
+          state.status = "loading";
+        })
+        builder.addCase(fetctEditProfile.fulfilled, (state, action) => {
+          state.userData.user = action.payload;
+          state.status = "succese";
+        })
+        builder.addCase(fetctEditProfile.rejected, (state) => {
+          console.log("smthng goes wrong in fetctEditProfile");
+          state.userData.user = null;
+        })
+          // FETCH FOLLOW
+          builder.addCase(fetchFollowUser.pending, (state) => {
+            state.status = "loading";
+          })
+          builder.addCase(fetchFollowUser.fulfilled, (state, action) => {
+            state.userData.user = action.payload;
+            state.status = "succese";
+          })
+          builder.addCase(fetchFollowUser.rejected, (state) => {
+            console.log("smthng goes wrong in fetchFollowUser");
+            state.userData.user = null;
+          })
+            // FETCH UNFOLLOW
+            builder.addCase(fetchUnfollowUser.pending, (state) => {
+              state.status = "loading";
+            })
+            builder.addCase(fetchUnfollowUser.fulfilled, (state, action) => {
+              state.userData.user = action.payload;
+              state.status = "succese";
+            })
+            builder.addCase(fetchUnfollowUser.rejected, (state) => {
+              console.log("smthng goes wrong in fetchUnfollowUser");
+              state.userData.user = null;
+            })
       ;
   },
 });

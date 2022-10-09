@@ -40,7 +40,6 @@ app.post("/register", AuthControllers.register);
 app.post("/login", AuthControllers.login);
 app.put("/users/:userId", UserControllers.update);
 app.get("/users", UserControllers.getAllUsers);
-//ДОБАВИТЬ ГЕТ ОЛ ЮЗЕРЗ
 
 //FOLLOW USERS
 app.put("/user/:id/follow", UserControllers.followUser);

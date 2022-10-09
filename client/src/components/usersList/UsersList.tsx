@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./usersList.css";
 import UserCard from "../userCard/UserCard";
 import { useSelector } from "react-redux";
@@ -6,6 +6,9 @@ import { RootState } from "../../redux/store";
 
 const UsersList = () => {
   const allUsers = useSelector((state: RootState) => state.userReducer.users);
+
+  useEffect(() => {}, [allUsers]);
+
   return (
     <div className="userList">
       <div className="userListWrapper">

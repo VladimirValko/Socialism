@@ -39,7 +39,8 @@ export const followUser = async (req, res) => {
           followins: req.params.id,
         },
       });
-      res.status(200).json("You are following this user now!");
+      const updatetUser = await User.findById(req.body.userId);
+      res.status(200).json(updatetUser);
     } else {
       return res.status(403).json("You are alrady following this user");
     }
@@ -64,7 +65,8 @@ export const unfollowUser = async (req, res) => {
           followins: req.params.id,
         },
       });
-      res.status(200).json("You are not following this user now!");
+      const updatetUser = await User.findById(req.body.userId);
+      res.status(200).json(updatetUser);
     } else {
       return res.status(403).json("You are not following this user");
     }

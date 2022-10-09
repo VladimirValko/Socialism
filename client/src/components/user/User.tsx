@@ -4,13 +4,19 @@ import Share from "../share/Share";
 import Post from "../post/Post";
 import { fetctEditProfile } from "../../redux/slices/AuthSlice";
 import { RootState } from "../../redux/store";
-import { logOut } from "../../redux/slices/AuthSlice";
+import {
+  logOut,
+  fetchFollowUser,
+  fetchUnfollowUser,
+} from "../../redux/slices/AuthSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { AiOutlineEdit } from "react-icons/ai";
 import { AppDispatch } from "../../redux/store";
 import { undefinedPicture } from "../post/Post";
+import { SinglePostType } from "../../redux/slices/PostSlice";
+import { getFeedFromAllPosts } from "../../utils/getFeedFromAllPosts";
 
 export type EditProfileDataType = {
   username: string;
@@ -23,26 +29,26 @@ export type EditProfileDataType = {
 };
 
 type UserProps = {
-  isMyPage: boolean;
+  isMyPage?: boolean;
 };
 
 const User: React.FC<UserProps> = ({ isMyPage }) => {
-  const { userId } = useParams();
-  const [isEdditing, setIsEdditing] = useState(false);
+  const params = useParams();
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const logedInUser = useSelector(
     (state: RootState) => state.authReducer.userData?.user
   );
   const usersData = useSelector((state: RootState) => state.userReducer.users);
-  const user = usersData.filter((user) => user._id === userId)[0];
-  const feed = useSelector((state: RootState) => state.postReducer.posts);
+  const user = usersData.filter((user) => user._id === params.userId)[0];
+  const allPosts = useSelector((state: RootState) => state.postReducer.posts);
+  // const userFeed = useSelector((state: RootState) => state.postReducer.feed);
+  const [isEdditing, setIsEdditing] = useState(false);
   const [profileUserData, setProfileUserData] = useState(logedInUser);
+  const [myFeed, setMyFeed] = useState<SinglePostType[]>([]);
   const amFollowing = logedInUser?.followins.includes(user._id);
 
-  console.log(amFollowing);
-
-  useEffect(() => {}, [feed]);
+  useEffect(() => {}, [allPosts]);
 
   useEffect(() => {
     setProfileUserData(logedInUser);
@@ -60,7 +66,18 @@ const User: React.FC<UserProps> = ({ isMyPage }) => {
     }
   };
 
-  const followUnfollow = () => {};
+  const followUnfollow = async () => {
+    const followProps = {
+      id: params.userId,
+      userId: logedInUser?._id,
+    };
+
+    if (amFollowing) {
+      await dispatch(fetchUnfollowUser(followProps));
+    } else {
+      await dispatch(fetchFollowUser(followProps));
+    }
+  };
 
   const { register, handleSubmit } = useForm({
     defaultValues: {
@@ -82,6 +99,16 @@ const User: React.FC<UserProps> = ({ isMyPage }) => {
     setIsEdditing(!isEdditing);
     window.alert("Your profile has been changed.");
   };
+
+  const friends = useSelector(
+    (state: RootState) => state.authReducer.userData.user?.followins
+  );
+
+  useEffect(() => {
+    const userFeed = getFeedFromAllPosts(allPosts, friends, logedInUser?._id);
+    console.log(userFeed, "usersFeed");
+    setMyFeed(userFeed);
+  }, [allPosts]);
 
   return (
     <div className="user">
@@ -178,16 +205,22 @@ const User: React.FC<UserProps> = ({ isMyPage }) => {
           </div>
         )}
         <div className="userPosts">
-          {feed
-            ?.filter((post) => post.userId === user._id)
-            .map((post, i) => (
-              <Post
-                data={post}
-                image={user?.coverPicture}
-                key={i}
-                userpage={true}
-              />
-            ))}
+          {!isMyPage
+            ? allPosts
+                ?.filter((post) => post.userId === user._id)
+                .map((post, i) => (
+                  <Post data={post} image={user?.coverPicture} key={i} />
+                ))
+            : myFeed
+                ?.filter((post) => post.userId === logedInUser?._id)
+                .map((post, i) => (
+                  <Post
+                    data={post}
+                    image={user?.coverPicture}
+                    key={i}
+                    isMyPage={isMyPage}
+                  />
+                ))}
         </div>
       </div>
     </div>

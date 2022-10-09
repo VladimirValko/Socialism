@@ -21,10 +21,10 @@ export type PostReqType = {
 type PostProps = {
   data: SinglePostType;
   image?: string;
-  userpage?: boolean;
+  isMyPage?: boolean;
 };
 
-const Post: React.FC<PostProps> = ({ data, userpage }) => {
+const Post: React.FC<PostProps> = ({ data, isMyPage }) => {
   const dispatch = useDispatch<AppDispatch>();
   const [isReadyToDelete, setIsReadyToDelete] = useState(false);
   const usersData = useSelector(
@@ -46,7 +46,7 @@ const Post: React.FC<PostProps> = ({ data, userpage }) => {
   };
 
   const handleLike = async () => {
-    userpage
+    isMyPage
       ? window.alert(
           "Isn't it to narcissistic to like your own posts? At least try to do it in your news feed, bro.."
         )
@@ -65,7 +65,7 @@ const Post: React.FC<PostProps> = ({ data, userpage }) => {
             />
             <span className="postUserName">{data.userName}</span>
           </div>
-          {userpage && (
+          {isMyPage && (
             <div className="postTopRight">
               <FiMoreVertical onClick={() => handleOpenDelete()} />
               {isReadyToDelete && (

@@ -7,15 +7,17 @@ export const createPost = async (req, res) => {
     const newPost = new Post(req.body);
     await newPost.save();
 
-    const currentUser = await User.findById(req.body.userId);
-    const usersPosts = await Post.find({ userId: currentUser._id });
-    const friendsPosts = await Promise.all(
-      currentUser.followins.map((friendId) => {
-        return Post.find({ userId: friendId });
-      })
-    );
+    // const currentUser = await User.findById(req.body.userId);
+    // const usersPosts = await Post.find({ userId: currentUser._id });
+    // const friendsPosts = await Promise.all(
+    //   currentUser.followins.map((friendId) => {
+    //     return Post.find({ userId: friendId });
+    //   })
+    // );
 
-    res.status(200).json(usersPosts.concat(...friendsPosts));
+    const posts = await Post.find();
+
+    res.status(200).json(posts);
   } catch (error) {
     return res.status(500).json(error);
   }

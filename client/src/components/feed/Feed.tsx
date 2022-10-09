@@ -7,12 +7,15 @@ import { AppDispatch } from "../../redux/store";
 import { fetchFeed, fetchAllPosts } from "../../redux/slices/PostSlice";
 import { fetchAllUsers } from "../../redux/slices/UserSlice";
 import { RootState } from "../../redux/store";
+import { getFeedFromAllPosts } from "../../utils/getFeedFromAllPosts";
+import { SinglePostType } from "../../redux/slices/PostSlice";
 
 const Feed: React.FC = () => {
+  const [feed, setFeed] = useState<SinglePostType[]>([]);
   const usersData = useSelector(
     (state: RootState) => state.authReducer.userData.user
   );
-  const feed = useSelector((state: RootState) => state.postReducer.feed);
+  const allPosts = useSelector((state: RootState) => state.postReducer.posts);
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
@@ -25,15 +28,21 @@ const Feed: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    console.log(feed, "feed");
-  }, [feed]);
+    const userFeed = getFeedFromAllPosts(
+      allPosts,
+      usersData?.followins,
+      usersData?._id
+    );
+    console.log(userFeed, "usersFeed");
+    setFeed(userFeed);
+  }, [allPosts]);
 
   return (
     <div className="feed">
       <div className="feedWrapper">
         <Share />
         {feed?.map((post, i) => (
-          <Post data={post} key={i} userpage={false} />
+          <Post data={post} key={i} />
         ))}
       </div>
     </div>

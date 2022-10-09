@@ -45,7 +45,6 @@ export const fetchAddPost = createAsyncThunk(
   "posts/fetchAddPost",
   async (params: reqType) => {
     const { data } = await axios.post("/post", params);
-    console.log(data, "data from fetch add posts");
     return data.sort((a:any, b:any) => (b.createdAt > a.createdAt ? 1 : -1));
   }
 );
@@ -57,6 +56,7 @@ export const fetchDeletePost = createAsyncThunk(
   "posts/fetchDeletePost",
   async (params: PostReqType) => {
     const { data } = await axios.delete("/post", {data: params});
+    console.log("fetchDelete")
     return data.sort((a:any, b:any) => (b.createdAt > a.createdAt ? 1 : -1));
   }
 );
@@ -111,9 +111,9 @@ const postSlice = createSlice({
           state.status = "loading";
         })
         builder.addCase(fetchAddPost.fulfilled, (state, action) => {
-          console.log(action.payload);
-          state.feed = action.payload
-          // state.status = "succese";
+          // console.log(action.payload);
+          state.posts = action.payload
+          state.status = "succese";
         })
         builder.addCase(fetchAddPost.rejected, () => {
           console.log("smthng goes wrong in fetchAddPost");
@@ -123,7 +123,7 @@ const postSlice = createSlice({
             state.status = "loading";
           })
           builder.addCase(fetchDeletePost.fulfilled, (state, action) => {
-            state.feed = action.payload
+            state.posts = action.payload
             state.status = "succese";
           })
           builder.addCase(fetchDeletePost.rejected, () => {
@@ -134,7 +134,7 @@ const postSlice = createSlice({
               state.status = "loading";
             })
             builder.addCase(fetchLikePost.fulfilled, (state, action) => {
-              state.feed = action.payload
+              state.posts = action.payload
               state.status = "succese";
             })
             builder.addCase(fetchLikePost.rejected, () => {
