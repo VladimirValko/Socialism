@@ -70,28 +70,17 @@ export const likePost = async (req, res) => {
         },
       });
 
-      const currentUser = await User.findById(req.body.userId);
-      const usersPosts = await Post.find({ userId: currentUser._id });
-      const friendsPosts = await Promise.all(
-        currentUser.followins.map((friendId) => {
-          return Post.find({ userId: friendId });
-        })
-      );
-      res.status(200).json(usersPosts.concat(...friendsPosts));
+      const posts = await Post.find();
+      res.status(200).json(posts);
     } else {
       await post.updateOne({
         $pull: {
           likes: req.body.userId,
         },
       });
-      const currentUser = await User.findById(req.body.userId);
-      const usersPosts = await Post.find({ userId: currentUser._id });
-      const friendsPosts = await Promise.all(
-        currentUser.followins.map((friendId) => {
-          return Post.find({ userId: friendId });
-        })
-      );
-      res.status(200).json(usersPosts.concat(...friendsPosts));
+
+      const posts = await Post.find();
+      res.status(200).json(posts);
     }
   } catch (error) {
     res.status(500).json(error);

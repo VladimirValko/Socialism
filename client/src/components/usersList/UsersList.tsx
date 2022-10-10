@@ -3,11 +3,24 @@ import "./usersList.css";
 import UserCard from "../userCard/UserCard";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
+import { useDispatch } from "react-redux";
+import { fetchAllUsers } from "../../redux/slices/UserSlice";
+import { AppDispatch } from "../../redux/store";
 
 const UsersList = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const allUsers = useSelector((state: RootState) => state.userReducer.users);
 
-  useEffect(() => {}, [allUsers]);
+  useEffect(() => {
+    const getUsers = async () => {
+      await dispatch(fetchAllUsers());
+    };
+    getUsers();
+  }, []);
+
+  useEffect(() => {
+    console.log(allUsers);
+  }, [allUsers]);
 
   return (
     <div className="userList">

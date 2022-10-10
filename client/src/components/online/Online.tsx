@@ -1,18 +1,22 @@
 import "./online.css";
-import { FakeUser } from "../rightbar/Rightbar"
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 type OnlineData = {
-  data: FakeUser;
-}
+  data: string;
+};
 
-const Online:React.FC<OnlineData> = ({ data }) => {
+const Online: React.FC<OnlineData> = ({ data }) => {
+  const allUsers = useSelector((state: RootState) => state.userReducer.users);
+  const friend = allUsers.filter((user) => user._id === data)[0];
+
   return (
     <li className="rightbarFriend">
       <div className="rightbarProfileImgContainer">
-        <img src={data.profilePicture} alt="" className="rightbarProfileImg" />
+        <img src={friend.coverPicture} alt="" className="rightbarProfileImg" />
         <span className="rightbarOnline"></span>
       </div>
-      <span>{data.username}</span>
+      <span>{friend.username}</span>
     </li>
   );
 };

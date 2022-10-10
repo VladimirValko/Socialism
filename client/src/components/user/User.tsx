@@ -15,8 +15,9 @@ import { useForm } from "react-hook-form";
 import { AiOutlineEdit } from "react-icons/ai";
 import { AppDispatch } from "../../redux/store";
 import { undefinedPicture } from "../post/Post";
-import { SinglePostType } from "../../redux/slices/PostSlice";
+import { SinglePostType, fetchAllPosts } from "../../redux/slices/PostSlice";
 import { getFeedFromAllPosts } from "../../utils/getFeedFromAllPosts";
+import { fetchAllUsers } from "../../redux/slices/UserSlice";
 
 export type EditProfileDataType = {
   username: string;
@@ -48,7 +49,16 @@ const User: React.FC<UserProps> = ({ isMyPage }) => {
   const [myFeed, setMyFeed] = useState<SinglePostType[]>([]);
   const amFollowing = logedInUser?.followins.includes(user._id);
 
-  useEffect(() => {}, [allPosts]);
+  useEffect(() => {}, [allPosts, logedInUser]);
+
+  useEffect(() => {
+    const getAllPosts = async () => {
+      // await dispatch(fetchFeed(usersData?._id));
+      await dispatch(fetchAllPosts());
+      await dispatch(fetchAllUsers());
+    };
+    getAllPosts();
+  }, []);
 
   useEffect(() => {
     setProfileUserData(logedInUser);

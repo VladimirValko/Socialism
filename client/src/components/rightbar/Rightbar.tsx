@@ -1,17 +1,13 @@
 import "./rightbar.css";
-import { Users } from "../../fakeData";
-import Friend1Online from "../../assets/person/3.jpeg";
 import Online from "../online/Online";
-
-export type FakeUser = {
-  id: number;
-  profilePicture: string;
-  username: string;
-};
-
-const fakeUsers: FakeUser[] = Users;
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 const Rightbar: React.FC = () => {
+  const friends = useSelector(
+    (state: RootState) => state.authReducer.userData.user?.followins
+  );
+
   return (
     <div className="rightbar">
       <div className="rightbarWrapper">
@@ -29,8 +25,8 @@ const Rightbar: React.FC = () => {
         </div>
         <h4 className="rightbarTitle">Friends Online</h4>
         <ul className="rightbarFriendList">
-          {fakeUsers.map((user) => (
-            <Online data={user} key={user.id} />
+          {friends?.map((user, i) => (
+            <Online data={user} key={i} />
           ))}
         </ul>
       </div>

@@ -4,7 +4,7 @@ import Share from "../share/Share";
 import "./feed.css";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../redux/store";
-import { fetchFeed, fetchAllPosts } from "../../redux/slices/PostSlice";
+import { fetchAllPosts } from "../../redux/slices/PostSlice";
 import { fetchAllUsers } from "../../redux/slices/UserSlice";
 import { RootState } from "../../redux/store";
 import { getFeedFromAllPosts } from "../../utils/getFeedFromAllPosts";
@@ -20,7 +20,7 @@ const Feed: React.FC = () => {
 
   useEffect(() => {
     const getAllPosts = async () => {
-      await dispatch(fetchFeed(usersData?._id));
+      // await dispatch(fetchFeed(usersData?._id));
       await dispatch(fetchAllPosts());
       await dispatch(fetchAllUsers());
     };
