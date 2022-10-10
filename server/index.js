@@ -5,6 +5,8 @@ import cors from "cors";
 import * as AuthControllers from "./controllers/authController.js";
 import * as UserControllers from "./controllers/userController.js";
 import * as PostControllers from "./controllers/postController.js";
+import * as ConversationControllers from "./controllers/conversationController.js";
+import * as MessageControllers from "./controllers/messageController.js";
 
 dotenv.config();
 const app = express();
@@ -53,6 +55,14 @@ app.put("/post/:id", PostControllers.updatePost);
 app.delete("/post", PostControllers.deletePost);
 app.put("/like", PostControllers.likePost);
 app.get("/newsfeed/:userId", PostControllers.getNewsFeed);
+
+//CONVERSATIONS
+app.post("/conversation", ConversationControllers.createConversation);
+app.get("/conversation/:userId", ConversationControllers.getConversation);
+
+//MESSAGES
+app.post("/messages", MessageControllers.createMessage);
+app.post("/messages/:conversationId", MessageControllers.getMessages);
 
 app.listen(8888, () => {
   connect();

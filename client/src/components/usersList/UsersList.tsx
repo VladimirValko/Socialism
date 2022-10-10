@@ -11,6 +11,8 @@ const UsersList = () => {
   const dispatch = useDispatch<AppDispatch>();
   const allUsers = useSelector((state: RootState) => state.userReducer.users);
 
+  console.log(allUsers);
+
   useEffect(() => {
     const getUsers = async () => {
       await dispatch(fetchAllUsers());
