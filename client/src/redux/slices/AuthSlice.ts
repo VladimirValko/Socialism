@@ -163,7 +163,7 @@ const authSlice = createSlice({
   },
 });
 
-export const selectIsAuth = (state: RootState) => Boolean(state.authReducer.userData);
+export const selectIsAuth = (state: RootState) => Boolean(state.authReducer.userData.user);
 
 export const { logOut } = authSlice.actions;
 

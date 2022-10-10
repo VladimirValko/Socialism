@@ -46,11 +46,7 @@ const Post: React.FC<PostProps> = ({ data, isMyPage }) => {
   };
 
   const handleLike = async () => {
-    isMyPage
-      ? window.alert(
-          "Isn't it to narcissistic to like your own posts? At least try to do it in your news feed, bro.."
-        )
-      : await dispatch(fetchLikePost(reqData));
+    await dispatch(fetchLikePost(reqData));
   };
 
   return (

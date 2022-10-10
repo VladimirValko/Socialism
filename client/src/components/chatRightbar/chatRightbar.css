@@ -1,0 +1,22 @@
+.chatMenu {
+  flex: 2.5;
+  position: sticky;
+  top: 60px;
+  right: 0;
+  overflow-y: scroll;
+  height: calc(100vh - 60px);
+  background-color: rgba(255, 255, 255, 0.497);
+  -webkit-box-shadow: -9px 1px 19px -11px rgba(34, 60, 80, 0.2);
+  -moz-box-shadow: -9px 1px 19px -11px rgba(34, 60, 80, 0.2);
+  box-shadow: -9px 1px 19px -11px rgba(34, 60, 80, 0.2);
+}
+
+.chatMenuWrapper {
+  padding: 20px;
+}
+
+.friendsTitle {
+  margin-top: 20px;
+  font-weight: 500;
+  align-self: center;
+}

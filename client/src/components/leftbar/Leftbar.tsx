@@ -1,8 +1,8 @@
 import "./leftbar.css";
-import { MdRssFeed, MdVideoLibrary } from "react-icons/md";
+import { MdRssFeed, MdVideoLibrary, MdOutlineWeb } from "react-icons/md";
 import { BsFillChatLeftTextFill } from "react-icons/bs";
 import { SiYoutubemusic, SiTinder } from "react-icons/si";
-import { BiNews } from "react-icons/bi";
+import { BiBookContent } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { FaUserFriends } from "react-icons/fa";
 import Birthday from "../../assets/gift.png";
@@ -26,7 +26,13 @@ const Sidebar: React.FC = () => {
           </li>
           <li className="leftbarListItem">
             <BsFillChatLeftTextFill className="leftbarListItemIcon" />
-            <span className="leftbarListItemText">Chats</span>
+            <Link to="/messenger" style={{ textDecoration: "none" }}>
+              <span className="leftbarListItemText link">Chats</span>
+            </Link>
+          </li>
+          <li className="leftbarListItem">
+            <MdOutlineWeb className="leftbarListItemIcon" />
+            <span className="leftbarListItemText">Groups</span>
           </li>
           <li className="leftbarListItem">
             <MdVideoLibrary className="leftbarListItemIcon" />
@@ -35,10 +41,6 @@ const Sidebar: React.FC = () => {
           <li className="leftbarListItem">
             <SiYoutubemusic className="leftbarListItemIcon" />
             <span className="leftbarListItemText">Music</span>
-          </li>
-          <li className="leftbarListItem">
-            <BiNews className="leftbarListItemIcon" />
-            <span className="leftbarListItemText">News</span>
           </li>
           <li className="leftbarListItem">
             <SiTinder className="leftbarListItemIcon" />
