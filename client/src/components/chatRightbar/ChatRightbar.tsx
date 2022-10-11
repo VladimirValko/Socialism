@@ -4,17 +4,32 @@ import Conversation from "../conversations/Conversation";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 
-const ChatLeftbar = () => {
+const ChatLeftbar: React.FC = () => {
   const friends = useSelector(
     (state: RootState) => state.authReducer.userData.user?.followins
   );
+  const conversations = useSelector(
+    (state: RootState) => state.chatReducer?.conversations
+  );
+
+  // filtering only friends, who i chat with
+  const chatFriends: string[] = [];
+  friends?.map((friend) => {
+    if (
+      conversations.filter(
+        (conversations, i) => conversations.members[i] === friend
+      )
+    ) {
+      chatFriends.push(friend);
+    }
+  });
 
   return (
     <div className="chatMenu">
       <div className="chatMenuWrapper">
         <span className="friendsTitle">Chats with Friends</span>
-        {friends?.map((friend) => (
-          <Conversation user={friend} />
+        {chatFriends?.map((friend, i) => (
+          <Conversation user={friend} key={i} conversations={conversations} />
         ))}
       </div>
     </div>

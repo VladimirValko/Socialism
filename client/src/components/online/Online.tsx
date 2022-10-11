@@ -13,10 +13,10 @@ const Online: React.FC<OnlineData> = ({ data }) => {
   return (
     <li className="rightbarFriend">
       <div className="rightbarProfileImgContainer">
-        <img src={friend.coverPicture} alt="" className="rightbarProfileImg" />
+        <img src={friend?.coverPicture} alt="" className="rightbarProfileImg" />
         <span className="rightbarOnline"></span>
       </div>
-      <span>{friend.username}</span>
+      <span>{friend?.username}</span>
     </li>
   );
 };

@@ -1,25 +1,27 @@
 import React from "react";
 import "./oneMessage.css";
-import Photo from "../../assets/person/1.jpeg";
+import { MessageType } from "../../redux/slices/ChatSlice";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { format } from "timeago.js";
 
 type OneMessageProps = {
   own: boolean;
+  message: MessageType;
 };
 
-const OneMessage: React.FC<OneMessageProps> = ({ own }) => {
+const OneMessage: React.FC<OneMessageProps> = ({ own, message }) => {
+  const allUsers = useSelector((state: RootState) => state.userReducer.users);
+  const sender = allUsers.filter((user) => user._id === message.sender)[0];
+
   return (
     <div className={own ? "message own" : "message"}>
       <div className="messageTop">
-        <img src={Photo} alt="user" className="messageImg" />
-        <p className="messageText">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Provident
-          maxime error aut, velit recusandae dicta culpa dolores qui dolorum
-          corporis at numquam debitis vel aperiam ipsa molestias veritatis
-          obcaecati amet!
-        </p>
+        <img src={sender.coverPicture} alt="user" className="messageImg" />
+        <p className="messageText">{message.text}</p>
       </div>
       <div className="messageBottom">
-        <span>1 hour ago</span>
+        <span>{format(message.createdAt)}</span>
       </div>
     </div>
   );

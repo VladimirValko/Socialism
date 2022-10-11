@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../redux/store";
 import { fetchDeletePost, fetchLikePost } from "../../redux/slices/PostSlice";
 import { AppDispatch } from "../../redux/store";
+import { format } from "timeago.js";
 
 export const undefinedPicture =
   "https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg";
@@ -61,6 +62,9 @@ const Post: React.FC<PostProps> = ({ data, isMyPage }) => {
             />
             <span className="postUserName">{data.userName}</span>
           </div>
+          {!isMyPage && (
+            <div className="postTopRight">{format(data.createdAt)}</div>
+          )}
           {isMyPage && (
             <div className="postTopRight">
               <FiMoreVertical onClick={() => handleOpenDelete()} />
@@ -92,7 +96,9 @@ const Post: React.FC<PostProps> = ({ data, isMyPage }) => {
               {data?.likes.length} people liked this
             </span>
           </div>
-          <div className="postBottomRight"></div>
+          {isMyPage && (
+            <div className="postTopRight">{format(data.createdAt)}</div>
+          )}
         </div>
       </div>
     </div>

@@ -62,7 +62,7 @@ app.get("/conversation/:userId", ConversationControllers.getConversation);
 
 //MESSAGES
 app.post("/messages", MessageControllers.createMessage);
-app.post("/messages/:conversationId", MessageControllers.getMessages);
+app.get("/messages/:conversationId", MessageControllers.getMessages);
 
 app.listen(8888, () => {
   connect();
