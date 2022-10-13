@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../utils/axios";
 import { RootState } from "../store";
 import { EditProfileDataType } from "../../components/user/User";
+import { YtVideo } from "../../components/videoSingle/VideoSingle";
 
 export type UserDataType = {
   _id: string;
@@ -15,6 +16,7 @@ export type UserDataType = {
   hometown: string;
   relationship: string;
   birthday: string;
+  myVideos: YtVideo[];
 };
 
 type RegisterType = {
@@ -80,6 +82,12 @@ export const fetchUnfollowUser = createAsyncThunk(
     return data
   }
 );
+
+export const fetchAddVideo = async (params: any) => {
+  const { data } = await axios.put("", params);
+    console.log(data);
+  return data
+}
 
 const initialState: StateType = {
   userData: {

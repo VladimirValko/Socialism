@@ -3,6 +3,7 @@ import { authReducer } from './slices/AuthSlice';
 import { postReducer } from './slices/PostSlice';
 import { userReducer } from './slices/UserSlice';
 import { chatReducer } from './slices/ChatSlice';
+import { videosReducer } from './slices/VideosSlice';
 import { useDispatch } from 'react-redux';
 import {
   persistStore,
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   postReducer: postReducer,
   userReducer: userReducer,
   chatReducer: chatReducer,
+  videosReducer: videosReducer,
   // все новые редюсеры надо добавлять сюда
 });
 

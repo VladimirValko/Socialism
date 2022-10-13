@@ -16,7 +16,8 @@ const ChatLeftbar: React.FC = () => {
   const chatFriends: string[] = [];
   friends?.map((friend) => {
     if (
-      conversations.filter(
+      conversations &&
+      conversations?.filter(
         (conversations, i) => conversations.members[i] === friend
       )
     ) {

@@ -47,7 +47,7 @@ const User: React.FC<UserProps> = ({ isMyPage }) => {
   const [isEdditing, setIsEdditing] = useState(false);
   const [profileUserData, setProfileUserData] = useState(logedInUser);
   const [myFeed, setMyFeed] = useState<SinglePostType[]>([]);
-  const amFollowing = logedInUser?.followins.includes(user._id);
+  const amFollowing = logedInUser?.followins.includes(user?._id);
 
   useEffect(() => {}, [allPosts, logedInUser]);
 

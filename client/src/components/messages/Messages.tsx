@@ -35,7 +35,7 @@ const Messages: React.FC = () => {
   const messageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    messageRef?.current?.scrollIntoView();
+    messageRef?.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   const { resetField, register, handleSubmit } = useForm({

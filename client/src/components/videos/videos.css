@@ -1,0 +1,95 @@
+.videos {
+  position: relative;
+  flex: 9.5;
+  display: flex;
+  width: 100%;
+  height: max-content;
+  background-color: rgba(255, 255, 255, 0.535);
+  padding: 10px;
+}
+
+.videosContainer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.videosContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 10px;
+}
+
+.videosTop {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.search {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.searchVideoIcon {
+  position: absolute;
+  right: 95px;
+  top:12px;
+  font-size: 20px;
+  color: gray;
+}
+
+.searchVideoInput {
+  margin: 0 auto;
+  margin-bottom: 15px ;
+  padding: 15px 20px;
+  border: none;
+  width: 500px;
+  border-radius: 20px;
+  outline: none;
+  -webkit-box-shadow: 4px 4px 11px -1px rgba(34, 60, 80, 0.16);
+  -moz-box-shadow: 4px 4px 11px -1px rgba(34, 60, 80, 0.16);
+  box-shadow: 4px 4px 11px -1px rgba(34, 60, 80, 0.16);
+}
+
+.categoriesList {
+  list-style: none;
+  margin: 20px 35px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.categorieListItem {
+  cursor: pointer;
+  background-color: white;
+  padding: 12px 20px;
+  border-radius: 15px;
+  -webkit-box-shadow: 4px 4px 11px -1px rgba(34, 60, 80, 0.16);
+  -moz-box-shadow: 4px 4px 11px -1px rgba(34, 60, 80, 0.16);
+  box-shadow: 4px 4px 11px -1px rgba(34, 60, 80, 0.16);
+}
+
+.categorieListItem:first-child{
+  background-color: rgb(131, 100, 199);
+  color: white;
+}
+
+.videosButtom {
+  width: 98%;
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(2, minmax(0, 1fr));;
+  gap: 2.5rem;
+}
+
+.videoSingleWrapper {
+  cursor: pointer;
+}
+
+.noResultsWrapper {
+  height: 70vh;
+  margin: 20px auto;
+}

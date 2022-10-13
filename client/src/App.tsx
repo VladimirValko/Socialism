@@ -8,6 +8,7 @@ import "./App.css";
 import { useSelector } from "react-redux";
 import { selectIsAuth } from "./redux/slices/AuthSlice";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
+import VideosPage from "./pages/videosPage/VideosPage";
 
 function App() {
   const isAuth = useSelector(selectIsAuth);
@@ -27,6 +28,7 @@ function App() {
             path="/messenger"
             element={isAuth ? <Messenger /> : <Login />}
           />
+          <Route path="/videos" element={isAuth ? <VideosPage /> : <Login />} />
         </Routes>
       </div>
     </BrowserRouter>
