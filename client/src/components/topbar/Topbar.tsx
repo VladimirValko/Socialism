@@ -1,5 +1,5 @@
 import "./topbar.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   BsSearch,
   BsFillPersonFill,
@@ -9,10 +9,15 @@ import { IoMdNotifications } from "react-icons/io";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../redux/store";
 import { undefinedPicture } from "../post/Post";
-import { setSearch } from "../../redux/slices/PostSlice";
+import { setIsSearch, setSearchValue } from "../../redux/slices/PostSlice";
 import { useForm } from "react-hook-form";
 
+type SubmitSearchProps = {
+  search: string;
+};
+
 const Topbar: React.FC = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector(
     (state: RootState) => state.authReducer.userData.user
@@ -25,8 +30,10 @@ const Topbar: React.FC = () => {
     mode: "onSubmit",
   });
 
-  const onSubmit = async () => {
-    await dispatch(setSearch());
+  const onSubmit = async (inputValue: SubmitSearchProps) => {
+    dispatch(setIsSearch(true));
+    dispatch(setSearchValue(inputValue.search));
+    navigate("/");
     resetField("search");
   };
 

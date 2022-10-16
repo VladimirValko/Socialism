@@ -21,7 +21,10 @@ type PostStateType = {
   posts: SinglePostType[];
   feed: SinglePostType[];
   status: string;
-  search: boolean;
+  search: {
+    isSearch: boolean;
+    searchValue: string;
+  }
 }
 
 
@@ -76,7 +79,10 @@ const initialState: PostStateType = {
   posts: [],
   feed: [],
   status: "loading",
-  search: false,
+  search: {
+    isSearch: false,
+    searchValue: "",
+  }
 };
 
 
@@ -85,8 +91,11 @@ const postSlice = createSlice({
   name: "post",
   initialState,
   reducers: {
-    setSearch: (state) => {
-      state.search = !state.search
+    setIsSearch: (state, action) => {
+      state.search.isSearch = action.payload
+    },
+    setSearchValue: (state, action) => {
+      state.search.searchValue = action.payload
     },
   },
   extraReducers: (builder) => {
@@ -150,6 +159,7 @@ const postSlice = createSlice({
   },
 });
 
-export const { setSearch } = postSlice.actions;
+export const { setIsSearch } = postSlice.actions;
+export const { setSearchValue } = postSlice.actions;
 
 export const postReducer = postSlice.reducer;

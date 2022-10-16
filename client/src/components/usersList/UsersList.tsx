@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { fetchAllUsers } from "../../redux/slices/UserSlice";
 import { AppDispatch } from "../../redux/store";
 
-const UsersList = () => {
+const UsersList: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const allUsers = useSelector((state: RootState) => state.userReducer.users);
 
