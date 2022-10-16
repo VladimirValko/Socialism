@@ -10,6 +10,7 @@ import { RootState } from "../../redux/store";
 import { fetchDeletePost, fetchLikePost } from "../../redux/slices/PostSlice";
 import { AppDispatch } from "../../redux/store";
 import { format } from "timeago.js";
+import { Link } from "react-router-dom";
 
 export const undefinedPicture =
   "https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg";
@@ -54,14 +55,19 @@ const Post: React.FC<PostProps> = ({ data, isMyPage }) => {
     <div className="post">
       <div className="postWrapper">
         <div className="postTop">
-          <div className="postTopLeft">
-            <img
-              className="PostProfileImg"
-              src={data.userPicture || undefinedPicture}
-              alt="profile"
-            />
-            <span className="postUserName">{data.userName}</span>
-          </div>
+          <Link
+            to={`/profile/${data.userId}`}
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            <div className="postTopLeft">
+              <img
+                className="PostProfileImg"
+                src={data.userPicture || undefinedPicture}
+                alt="profile"
+              />
+              <span className="postUserName">{data.userName}</span>
+            </div>
+          </Link>
           {!isMyPage && (
             <div className="postTopRight">{format(data.createdAt)}</div>
           )}

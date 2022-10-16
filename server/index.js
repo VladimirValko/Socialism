@@ -7,6 +7,7 @@ import * as UserControllers from "./controllers/userController.js";
 import * as PostControllers from "./controllers/postController.js";
 import * as ConversationControllers from "./controllers/conversationController.js";
 import * as MessageControllers from "./controllers/messageController.js";
+import * as userVideosController from "./controllers/userVideosController.js";
 
 dotenv.config();
 const app = express();
@@ -63,6 +64,11 @@ app.get("/conversation/:userId", ConversationControllers.getConversation);
 //MESSAGES
 app.post("/messages", MessageControllers.createMessage);
 app.get("/messages/:conversationId", MessageControllers.getMessages);
+
+//VIDEOS
+app.post("/videos/create", userVideosController.createUserVideos);
+app.put("/videos", userVideosController.handleVideo);
+app.get("/videos/:userId", userVideosController.getUserVideos);
 
 app.listen(8888, () => {
   connect();

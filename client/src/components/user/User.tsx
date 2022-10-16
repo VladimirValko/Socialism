@@ -18,6 +18,8 @@ import { undefinedPicture } from "../post/Post";
 import { SinglePostType, fetchAllPosts } from "../../redux/slices/PostSlice";
 import { getFeedFromAllPosts } from "../../utils/getFeedFromAllPosts";
 import { fetchAllUsers } from "../../redux/slices/UserSlice";
+import { fetchGetFriendsVideos } from "../../redux/slices/VideosSlice";
+import VideoSingle from "../videoSingle/VideoSingle";
 
 export type EditProfileDataType = {
   username: string;
@@ -40,14 +42,20 @@ const User: React.FC<UserProps> = ({ isMyPage }) => {
   const logedInUser = useSelector(
     (state: RootState) => state.authReducer.userData?.user
   );
+  const MyVideos = useSelector(
+    (state: RootState) => state.videosReducer.userVideos?.videos
+  );
   const usersData = useSelector((state: RootState) => state.userReducer.users);
   const user = usersData.filter((user) => user._id === params.userId)[0];
   const allPosts = useSelector((state: RootState) => state.postReducer.posts);
-  // const userFeed = useSelector((state: RootState) => state.postReducer.feed);
   const [isEdditing, setIsEdditing] = useState(false);
   const [profileUserData, setProfileUserData] = useState(logedInUser);
   const [myFeed, setMyFeed] = useState<SinglePostType[]>([]);
   const amFollowing = logedInUser?.followins.includes(user?._id);
+  const friendVideos = useSelector(
+    (state: RootState) => state.videosReducer.friendVideos
+  );
+  const userPageVideos = isMyPage ? MyVideos : friendVideos;
 
   useEffect(() => {}, [allPosts, logedInUser]);
 
@@ -58,6 +66,15 @@ const User: React.FC<UserProps> = ({ isMyPage }) => {
       await dispatch(fetchAllUsers());
     };
     getAllPosts();
+
+    const getFriendsVideos = async () => {
+      await dispatch(fetchGetFriendsVideos(user?._id));
+    };
+
+    if (!isMyPage) {
+      getFriendsVideos();
+      console.log(friendVideos, "friendVideos");
+    }
   }, []);
 
   useEffect(() => {
@@ -126,7 +143,13 @@ const User: React.FC<UserProps> = ({ isMyPage }) => {
         <div className="profileImg">
           <img src={user?.coverPicture || undefinedPicture} alt="" />
         </div>
-        <div className="profileMedia"></div>
+        <div className="profileMedia">
+          {userPageVideos?.map((vid, idx) => (
+            <div className="userVideoWrapper">
+              <VideoSingle isMyPage={true} data={vid} key={idx} />
+            </div>
+          ))}
+        </div>
       </div>
       <div className="userRight">
         <div className="profileInfo">

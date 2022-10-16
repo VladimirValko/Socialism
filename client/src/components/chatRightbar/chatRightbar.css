@@ -16,7 +16,8 @@
 }
 
 .friendsTitle {
-  margin-top: 20px;
+  display: flex;
   font-weight: 500;
-  align-self: center;
+  justify-content: center;
+
 }

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./videos.css";
 import VideoSingle from "../videoSingle/VideoSingle";
-import { HiOutlineSearch } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../redux/store";
 import { fetchSearchVideos } from "../../redux/slices/VideosSlice";
@@ -19,7 +18,11 @@ const Viseos: React.FC = () => {
   const searchedVideos = useSelector(
     (state: RootState) => state.videosReducer?.searchVideos
   );
-  const [category, setCategory] = useState<YtVideo[]>(sport);
+  const userVideosData = useSelector(
+    (state: RootState) => state.videosReducer.userVideos
+  );
+  const [category, setCategory] = useState<YtVideo[]>(userVideosData?.videos);
+  const [activeCategory, setActiveCategory] = useState("myVideos");
   const dispatch = useDispatch<AppDispatch>();
 
   const { resetField, register, handleSubmit } = useForm({
@@ -30,67 +33,84 @@ const Viseos: React.FC = () => {
   });
 
   useEffect(() => {
-    console.log(category, "CATEGORY USEEFFECT");
-  }, [category]);
+    console.log("rerender");
+  }, [category, userVideosData?.videos]);
 
   const onSubmit = (searchValue: videoSearchProps) => {
-    console.log(searchValue, "videos Searched");
     const searchVideo = async () => {
       const { payload } = await dispatch(
         fetchSearchVideos(searchValue.searchValue)
       );
-      console.log(payload.items, "payload");
       setCategory(payload.items);
     };
     searchVideo();
-    console.log(category, "CATEGORY AFTER SEARCH AND SET");
     resetField("searchValue");
+  };
+
+  const handleCategoryClick = (value: string, category: YtVideo[]) => {
+    setCategory(category);
+    setActiveCategory(value);
   };
 
   return (
     <div className="videos">
       <div className="videosContainer">
         <div className="videosTop">
-          <div className="categories">
+          <div className="categoriesAndSearch">
             <ul className="categoriesList">
               <li
-                onClick={(e) => setCategory(music)}
-                className="categorieListItem"
+                onClick={() =>
+                  handleCategoryClick("myVideos", userVideosData.videos)
+                }
+                className={`categorieListItem ${
+                  activeCategory === "myVideos" && "active"
+                }`}
               >
                 My Videos
               </li>
               <li
-                onClick={(e) => setCategory(searchedVideos)}
-                className="categorieListItem"
+                onClick={(e) => handleCategoryClick("search", searchedVideos)}
+                className={`categorieListItem ${
+                  activeCategory === "search" && "active"
+                }`}
               >
                 Search
               </li>
               <li
-                onClick={(e) => setCategory(music)}
-                className="categorieListItem"
+                onClick={(e) => handleCategoryClick("music", music)}
+                className={`categorieListItem ${
+                  activeCategory === "music" && "active"
+                }`}
               >
                 Music
               </li>
               <li
-                onClick={(e) => setCategory(sport)}
-                className="categorieListItem"
+                onClick={(e) => handleCategoryClick("sport", sport)}
+                className={`categorieListItem ${
+                  activeCategory === "sport" && "active"
+                }`}
               >
                 Sport
               </li>
               <li
-                onClick={(e) => setCategory(code)}
-                className="categorieListItem"
+                onClick={(e) => handleCategoryClick("code", code)}
+                className={`categorieListItem ${
+                  activeCategory === "code" && "active"
+                }`}
               >
                 Code
               </li>
               <li
-                onClick={() => setCategory(travel)}
-                className="categorieListItem"
+                onClick={() => handleCategoryClick("travel", travel)}
+                className={`categorieListItem ${
+                  activeCategory === "travel" && "active"
+                }`}
               >
                 Travel
               </li>
             </ul>
-            {category == searchedVideos && (
+
+            {category === searchedVideos && (
               <form className="search" onSubmit={handleSubmit(onSubmit)}>
                 <input
                   {...register("searchValue")}
@@ -103,19 +123,19 @@ const Viseos: React.FC = () => {
           </div>
         </div>
         <div className="videosButtom">
-          {category.length &&
+          {category.length > 0 &&
             category
               ?.filter((video) => video?.id.kind === "youtube#video")
               .slice(0, 30)
               .map((video, i) => (
                 <div className="videoSingleWrapper">
-                  <VideoSingle data={video} key={i} />
+                  <VideoSingle data={video} key={i} isMyPage={false} />
                 </div>
               ))}
         </div>
         {!category.length && (
           <div className="noResultsWrapper">
-            <img src={NoResults} alt="" />
+            <img src={NoResults} alt="noResults" />
           </div>
         )}
       </div>

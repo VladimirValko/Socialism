@@ -21,6 +21,7 @@ type PostStateType = {
   posts: SinglePostType[];
   feed: SinglePostType[];
   status: string;
+  search: boolean;
 }
 
 
@@ -75,6 +76,7 @@ const initialState: PostStateType = {
   posts: [],
   feed: [],
   status: "loading",
+  search: false,
 };
 
 
@@ -82,7 +84,11 @@ const initialState: PostStateType = {
 const postSlice = createSlice({
   name: "post",
   initialState,
-  reducers: {},
+  reducers: {
+    setSearch: (state) => {
+      state.search = !state.search
+    },
+  },
   extraReducers: (builder) => {
     //FETCH ALL POSTS
     builder.addCase(fetchAllPosts.pending, (state) => {
@@ -143,5 +149,7 @@ const postSlice = createSlice({
       ;
   },
 });
+
+export const { setSearch } = postSlice.actions;
 
 export const postReducer = postSlice.reducer;

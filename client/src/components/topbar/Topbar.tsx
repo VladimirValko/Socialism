@@ -6,14 +6,29 @@ import {
   BsFillChatLeftTextFill,
 } from "react-icons/bs";
 import { IoMdNotifications } from "react-icons/io";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../redux/store";
 import { undefinedPicture } from "../post/Post";
+import { setSearch } from "../../redux/slices/PostSlice";
+import { useForm } from "react-hook-form";
 
 const Topbar: React.FC = () => {
+  const dispatch = useDispatch();
   const user = useSelector(
     (state: RootState) => state.authReducer.userData.user
   );
+
+  const { register, handleSubmit, resetField } = useForm({
+    defaultValues: {
+      search: "",
+    },
+    mode: "onSubmit",
+  });
+
+  const onSubmit = async () => {
+    await dispatch(setSearch());
+    resetField("search");
+  };
 
   return (
     <div className="topbarContainer">
@@ -23,18 +38,26 @@ const Topbar: React.FC = () => {
         </Link>
       </div>
       <div className="topbarCenter">
-        <div className="searchbar">
+        <form className="searchbar" onSubmit={handleSubmit(onSubmit)}>
           <BsSearch className="searchIcon" />
           <input
             placeholder="Search for friends or posts..."
             className="searchInput"
+            {...register("search")}
           />
-        </div>
+        </form>
       </div>
       <div className="topbarRight">
         <div className="topbarLinks">
-          <span className="topbarLink">Homepage</span>
-          <span className="topbarLink">NewsFeed</span>
+          <Link
+            to={`profile/${user?._id}`}
+            style={{ textDecoration: "none", color: "white" }}
+          >
+            <span className="topbarLink">My page</span>
+          </Link>
+          <Link to="/" style={{ textDecoration: "none", color: "white" }}>
+            <span className="topbarLink">NewsFeed</span>
+          </Link>
         </div>
         <div className="topbarIcons">
           <div className="topbarIconItem">

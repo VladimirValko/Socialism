@@ -16,7 +16,6 @@ export type UserDataType = {
   hometown: string;
   relationship: string;
   birthday: string;
-  myVideos: YtVideo[];
 };
 
 type RegisterType = {
@@ -39,6 +38,7 @@ type StateType = {
   userData: {
     user: UserDataType | null;
     token: string;
+    myVideos: YtVideo[];
   };
   status: string;
 }
@@ -83,16 +83,13 @@ export const fetchUnfollowUser = createAsyncThunk(
   }
 );
 
-export const fetchAddVideo = async (params: any) => {
-  const { data } = await axios.put("", params);
-    console.log(data);
-  return data
-}
+
 
 const initialState: StateType = {
   userData: {
     user: null,
-    token: ""
+    token: "",
+    myVideos: [],
   },
   
   status: "loading",
