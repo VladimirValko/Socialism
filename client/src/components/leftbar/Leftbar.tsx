@@ -30,7 +30,6 @@ const Sidebar: React.FC = () => {
               <span className="leftbarListItemText link">Chats</span>
             </Link>
           </li>
-
           <li className="leftbarListItem">
             <MdVideoLibrary className="leftbarListItemIcon" />
             <Link to="/videos" style={{ textDecoration: "none" }}>
@@ -39,7 +38,10 @@ const Sidebar: React.FC = () => {
           </li>
           <li className="leftbarListItem">
             <SiYoutubemusic className="leftbarListItemIcon" />
-            <span className="leftbarListItemText">Music</span>
+
+            <Link to="/music" style={{ textDecoration: "none" }}>
+              <span className="leftbarListItemText link">Music</span>
+            </Link>
           </li>
           <li className="leftbarListItem">
             <SiTinder className="leftbarListItemIcon" />

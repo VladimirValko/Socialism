@@ -63,7 +63,7 @@ const Feed: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    // get userFeed to logined user from allPosts
+    // get userFeed for logined user from allPosts
     const userFeed = getFeedFromAllPosts(
       allPosts,
       usersData?.followins,

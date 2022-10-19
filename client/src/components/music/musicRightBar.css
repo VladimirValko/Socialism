@@ -1,0 +1,31 @@
+.musicRightBar {
+  position: relative;
+  flex: 2.5;
+  position: sticky;
+  top: 60px;
+  right: 0;
+  padding: 10px;
+  overflow-y: scroll;
+  height: calc(100vh - 60px);
+  background-color: rgba(255, 255, 255, 0.799);
+  -webkit-box-shadow: -9px 1px 19px -11px rgba(34, 60, 80, 0.2);
+  -moz-box-shadow: -9px 1px 19px -11px rgba(34, 60, 80, 0.2);
+  box-shadow: -9px 1px 19px -11px rgba(34, 60, 80, 0.2);
+}
+
+.musicRightBarWrapper {
+  padding: 10px;
+}
+
+.musicPlayer {
+  position: sticky;
+  height: max-content;
+  top: 0px;
+  right: 400px;
+  padding: 20px 5px;
+  border-radius: 15px;
+  background-color: rgba(255, 255, 255, 0.607);
+  -webkit-box-shadow: 0px 5px 18px -8px rgba(34, 60, 80, 0.2);
+  -moz-box-shadow: 0px 5px 18px -8px rgba(34, 60, 80, 0.2);
+  box-shadow: 0px 5px 18px -8px rgba(34, 60, 80, 0.2);
+}

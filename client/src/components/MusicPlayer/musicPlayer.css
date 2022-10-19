@@ -1,0 +1,52 @@
+.controllers {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.cursorPointer {
+  cursor: pointer;
+}
+
+.player {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.trackWrapper {
+  display: flex;
+  align-items: center;
+}
+
+
+
+.trackImg {
+  object-fit: cover;
+  width: 70px;
+  height: 70px;
+  border-radius: 100%;
+}
+
+.seekbar {
+  display: flex;
+}
+
+.volume {
+  display: flex;
+}
+
+.trackTitle {
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+  margin: 0 auto;
+}
+
+.trackSubtitle {
+  text-align: center;
+  margin: 5px auto;
+}
