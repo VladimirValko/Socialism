@@ -18,6 +18,7 @@
 }
 
 .musicPlayer {
+  font-size: 13px;
   position: sticky;
   height: max-content;
   top: 0px;
@@ -28,4 +29,72 @@
   -webkit-box-shadow: 0px 5px 18px -8px rgba(34, 60, 80, 0.2);
   -moz-box-shadow: 0px 5px 18px -8px rgba(34, 60, 80, 0.2);
   box-shadow: 0px 5px 18px -8px rgba(34, 60, 80, 0.2);
+}
+
+.ganres {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: center; */
+  /* flex-direction: column; */
+}
+
+.ganre {
+  cursor: pointer;
+  width: max-content;
+  height: 45px;
+  font-size: 14px;
+  /* line-height: 24px; */
+  margin: 10px 5px;
+  border: none;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: white;
+  color: black;
+  -webkit-box-shadow: 0px 5px 8px -5px rgba(34, 60, 80, 0.2);
+  -moz-box-shadow: 0px 5px 8px -5px rgba(34, 60, 80, 0.2);
+  box-shadow: 0px 5px 8px -5px rgba(34, 60, 80, 0.2);
+}
+
+.ganre:hover {
+  -webkit-box-shadow: 0px 5px 24px -8px rgba(34, 60, 80, 0.2);
+  -moz-box-shadow: 0px 5px 24px -8px rgba(34, 60, 80, 0.2);
+  box-shadow: 0px 5px 24px -8px rgba(34, 60, 80, 0.2);
+}
+
+.activeGanre {
+  background-color: rgb(131, 100, 199);
+  color: white;
+  font-weight: bold;
+}
+
+.searchMusicInputWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.searchMusicIcon {
+  position: absolute;
+  right: 15px;
+  top: 23px;
+  color: gray;
+}
+
+.searchMusicInput {
+  width: 89%;
+  cursor: pointer;
+  outline: none;
+  height: 25px;
+  font-size: 14px;
+  margin-top: 10px;
+  border: none;
+  padding: 8px;
+  border-radius: 8px;
+  background-color: white;
+  color: black;
+  -webkit-box-shadow: 0px 5px 8px -5px rgba(34, 60, 80, 0.2);
+  -moz-box-shadow: 0px 5px 8px -5px rgba(34, 60, 80, 0.2);
+  box-shadow: 0px 5px 8px -5px rgba(34, 60, 80, 0.2);
 }

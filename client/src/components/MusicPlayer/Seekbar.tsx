@@ -17,6 +17,7 @@ const Seekbar: React.FC<SeekbarProps> = ({ value, min, max, onInput }) => {
     <div className="seekbar">
       <p>{value === 0 ? "0:00" : getTime(value)}</p>
       <input
+        className="seekbarInput"
         type="range"
         step="any"
         value={value}

@@ -2,15 +2,16 @@ import React from "react";
 import "./song.css";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { ISong } from "../music/musicTypes";
+import { ISong, ISearchedSong } from "../music/musicTypes";
 import PlayPause from "../music/PlayPause";
 import { playPause, setActiveSong } from "../../redux/slices/MusicSlice";
+import { AppDispatch } from "../../redux/store";
 
 type SongTypeProps = {
   song: ISong;
   isPlaying?: boolean;
   activeSong: ISong | undefined | null;
-  data?: ISong[];
+  data?: ISong[] | ISearchedSong[];
 };
 
 const Song: React.FC<SongTypeProps> = ({
@@ -19,7 +20,7 @@ const Song: React.FC<SongTypeProps> = ({
   activeSong,
   data,
 }) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const handlePauseClick = () => {
     dispatch(playPause(false));
@@ -29,6 +30,8 @@ const Song: React.FC<SongTypeProps> = ({
     dispatch(setActiveSong({ song, data }));
     dispatch(playPause(!isPlaying));
   };
+
+  // console.log(song);/
 
   return (
     <div className="song">

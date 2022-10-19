@@ -7,6 +7,7 @@ import { fetchHandleVideo } from "../../redux/slices/VideosSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../redux/store";
 import { RootState } from "../../redux/store";
+import { Link } from "react-router-dom";
 
 type SingleVideo = {
   isMyPage: boolean;
@@ -86,11 +87,13 @@ const VideoSingle: React.FC<SingleVideo> = ({ data, isMyPage }) => {
           />
         ) : (
           <div className="videoThumbnail">
-            <img
-              src={data.snippet?.thumbnails?.medium?.url}
-              alt="thumbnail"
-              className="videoThumbnailImg"
-            />
+            <Link to="/videos">
+              <img
+                src={data.snippet?.thumbnails?.medium?.url}
+                alt="thumbnail"
+                className="videoThumbnailImg"
+              />
+            </Link>
           </div>
         )}
       </div>

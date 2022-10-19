@@ -39,6 +39,7 @@ const VolumeBar: React.FC<VolumeBarProps> = ({
       />
     )}
     <input
+      className="volumeInput"
       type="range"
       step="any"
       value={value}

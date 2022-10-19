@@ -57,7 +57,7 @@ const Topbar: React.FC = () => {
       <div className="topbarRight">
         <div className="topbarLinks">
           <Link
-            to={`profile/${user?._id}`}
+            to={`/profile/${user?._id}`}
             style={{ textDecoration: "none", color: "white" }}
           >
             <span className="topbarLink">My page</span>

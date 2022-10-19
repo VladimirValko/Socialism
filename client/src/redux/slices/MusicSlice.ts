@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { ISong } from "../../components/music/musicTypes"
+import { ISong, ISearchedSong } from "../../components/music/musicTypes"
 
 type MusicStateType = {
   currentSongs?: ISong[];
@@ -9,8 +9,9 @@ type MusicStateType = {
   isPlaying?: boolean;
   activeSong?: ISong | null;
   status: string;
-  worldCharts: ISong[];
-  searchedSongs: ISong[];
+  activeCategorie: string;
+  selectedGanre: ISong[];
+  searchedSongs: ISearchedSong[];
 }
 
 const URL = 'https://shazam-core.p.rapidapi.com/v1';
@@ -19,18 +20,28 @@ const KEY = "f03ce5b998msh6c85792591c6b4bp1486d1jsn4a7d07f25463"
 
 const options = {
   url: URL ,
-  params: {query: 'mask'},
   headers: {
-    'X-RapidAPI-Key': "puk-puk",
+    'X-RapidAPI-Key': KEY,
     'X-RapidAPI-Host': 'shazam-core.p.rapidapi.com'
   }
 };
 
-export const fetchWorldCharts = createAsyncThunk(
-  "music/fetchWorldCharts",
-  async () => {
-    const { data } =await axios.get(`${URL}/charts/world`, options);
-    console.log(data, "DATA from MUSIC");
+export const fetchSearch = createAsyncThunk(
+  "music/fetchSearch",
+  async (params: string) => {
+    console.log(params, "params")
+    const { data } =await axios.get(`${URL}/search/multi?query=${params}&search_type=SONGS_ARTISTS`, options);
+    console.log(data, "DATA from fetchSearch");
+    return data.tracks.hits
+  }
+);
+
+export const fetchMyMusic = createAsyncThunk(
+  "music/fetchMyMusic",
+  async (params) => {
+    console.log(params, "params")
+    const { data } =await axios.post("", params);
+    console.log(data, "DATA from fetchMyMusic");
     return data
   }
 );
@@ -43,7 +54,8 @@ const initialState: MusicStateType = {
   isPlaying: false,
   activeSong: null,
   status: "",
-  worldCharts: [],
+  activeCategorie: "",
+  selectedGanre: [],
   searchedSongs: [],
 };
 
@@ -51,10 +63,20 @@ const musicSlice = createSlice({
   name: 'music',
   initialState,
   reducers: {
+
+    setGanre: (state, action) => {
+      state.selectedGanre = action.payload;
+      state.isActive = true;
+    },
     
     setActiveSong: (state, action) => {
-    state.activeSong = action.payload.song;
-    state.isActive = true;
+      state.activeSong = action.payload.song;
+      state.isActive = true;
+    },
+
+    setActiveCategorie: (state, action) => {
+      console.log(action.payload)
+      state.activeCategorie = action.payload
     },
 
     playPause: (state, action) => {
@@ -67,19 +89,20 @@ const musicSlice = createSlice({
 
   },
   extraReducers: (builder) => {
-    //FETCH WORLD CHARTS
-    builder.addCase(fetchWorldCharts.pending, (state) => {
+    //FETCH SEARCH
+    builder.addCase(fetchSearch.pending, (state) => {
       state.status = "loading";
     })
-    builder.addCase(fetchWorldCharts.fulfilled, (state, action) => {
-      state.worldCharts = action.payload;
+    builder.addCase(fetchSearch.fulfilled, (state, action) => {
+      state.searchedSongs = action.payload
       state.status = "succese";
     })
-    builder.addCase(fetchWorldCharts.rejected, () => {
-      console.log("smthng goes wrong in fetchWorldCharts");
+    builder.addCase(fetchSearch.rejected, (state) => {
+      console.log("smthng goes wrong in fetchSearch");
+      state.status = "error in fetchSearch";
     })
   }
 });
 
-export const { setActiveSong, playPause } = musicSlice.actions;
+export const { setActiveSong, playPause, setGanre, setActiveCategorie } = musicSlice.actions;
 export const musicReducer = musicSlice.reducer;

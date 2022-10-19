@@ -11,14 +11,14 @@ const Controls: React.FC<ControlsProps> = ({ isPlaying, handlePlayPause }) => (
   <div className="controllers">
     {isPlaying ? (
       <BsFillPauseFill
-        size={45}
+        size={35}
         color="black"
         onClick={handlePlayPause}
         className="cursorPointer"
       />
     ) : (
       <BsFillPlayFill
-        size={45}
+        size={35}
         color="black"
         onClick={handlePlayPause}
         className="cursorPointer"

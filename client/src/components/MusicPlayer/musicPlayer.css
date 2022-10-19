@@ -22,27 +22,32 @@
   align-items: center;
 }
 
-
-
-.trackImg {
-  object-fit: cover;
-  width: 70px;
-  height: 70px;
-  border-radius: 100%;
-}
-
 .seekbar {
   display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.seekbarInput {
+  width: 90%;
+  height: 4px;
 }
 
 .volume {
   display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.volumeInput {
+  width: 60%;
+  height: 4px;
 }
 
 .trackTitle {
   text-align: center;
   font-weight: bold;
-  font-size: 18px;
+  font-size: 15px;
   margin: 0 auto;
 }
 
