@@ -4,8 +4,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { ISong, ISearchedSong } from "../music/musicTypes";
 import PlayPause from "../music/PlayPause";
-import { playPause, setActiveSong } from "../../redux/slices/MusicSlice";
+import {
+  playPause,
+  setActiveSong,
+  fetchHandleMusic,
+} from "../../redux/slices/MusicSlice";
 import { AppDispatch } from "../../redux/store";
+import { RiAddCircleLine } from "react-icons/ri";
+import { TiDeleteOutline } from "react-icons/ti";
 
 type SongTypeProps = {
   song: ISong;
@@ -21,7 +27,12 @@ const Song: React.FC<SongTypeProps> = ({
   data,
 }) => {
   const dispatch = useDispatch<AppDispatch>();
-
+  const userSongs = useSelector(
+    (state: RootState) => state.musicReducer?.userMusic?.myMusic
+  );
+  const userData = useSelector(
+    (state: RootState) => state.authReducer.userData.user
+  );
   const handlePauseClick = () => {
     dispatch(playPause(false));
   };
@@ -31,7 +42,21 @@ const Song: React.FC<SongTypeProps> = ({
     dispatch(playPause(!isPlaying));
   };
 
-  // console.log(song);/
+  const songExists = userSongs?.length
+    ? userSongs.filter((s) => s.key === song.key).length > 0
+    : false;
+  console.log(songExists, "songExists");
+
+  const fetchHandleSong = async (songKey: string | undefined) => {
+    console.log(songKey);
+    const songData = {
+      userId: userData?._id,
+      song: song,
+      songKey,
+    };
+    await dispatch(fetchHandleMusic(songData));
+    console.log("dispatch from song");
+  };
 
   return (
     <div className="song">
@@ -66,8 +91,17 @@ const Song: React.FC<SongTypeProps> = ({
       </div>
 
       <div className="songBottom">
-        <p className="songTitle">{song.title.slice(0, 20)}</p>
-        <p className="songSubtitle">{song.subtitle.slice(0, 30)}</p>
+        <div className="songTitleSubtitle">
+          <p className="songTitle">{song.title.slice(0, 20)}</p>
+          <p className="songSubtitle">{song.subtitle.slice(0, 30)}</p>
+        </div>
+        <div className="addSong" onClick={() => fetchHandleSong(song.key)}>
+          {songExists ? (
+            <TiDeleteOutline className="deleteSongIcon" />
+          ) : (
+            <RiAddCircleLine className="addSongIcon" />
+          )}
+        </div>
       </div>
     </div>
   );

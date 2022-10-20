@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./musicRightBar.css";
 import { BiSearch } from "react-icons/bi";
 import MusicPlayer from "../MusicPlayer";
@@ -26,6 +26,9 @@ const MusicRightBar: React.FC = () => {
   const activeCategorie = useSelector(
     (state: RootState) => state.musicReducer?.activeCategorie
   );
+  const userMusic = useSelector(
+    (state: RootState) => state.musicReducer?.userMusic?.myMusic
+  );
 
   const [activeGanreName, setActiveGanreName] = useState(
     activeCategorie || "charts"
@@ -35,7 +38,6 @@ const MusicRightBar: React.FC = () => {
     dispatch(setGanre(ganre));
     setActiveGanreName(activeButton);
     dispatch(setActiveCategorie(activeButton));
-    console.log(activeButton, "activeButton");
   };
 
   const handleSearch = async (e: React.FormEvent) => {
@@ -43,8 +45,6 @@ const MusicRightBar: React.FC = () => {
     await dispatch(fetchSearch(search));
     dispatch(setGanre(searchSongs));
   };
-
-  console.log(search, "search from rightbar");
 
   return (
     <div className="musicRightBar">
@@ -59,7 +59,7 @@ const MusicRightBar: React.FC = () => {
             className={`ganre ${
               activeGanreName === "myMusic" ? "activeGanre" : ""
             }`}
-            onClick={() => handleSetActiveGanre("myMusic")}
+            onClick={() => handleSetActiveGanre("myMusic", userMusic)}
           >
             My Music
           </button>

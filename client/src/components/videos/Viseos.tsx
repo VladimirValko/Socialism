@@ -123,7 +123,7 @@ const Viseos: React.FC = () => {
           </div>
         </div>
         <div className="videosButtom">
-          {category.length > 0 &&
+          {category?.length > 0 &&
             category
               ?.filter((video) => video?.id.kind === "youtube#video")
               .slice(0, 30)

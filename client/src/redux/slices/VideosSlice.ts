@@ -57,9 +57,7 @@ type GetVideosResponse = {
 export const fetchSearchVideos = createAsyncThunk(
   "videos/fetchSearchVideos",
   async (params:string | undefined) => {
-    console.log(params);
     const { data } = await axios.get(`${URL}/search?part=snippet&q=${params}`, options);
-    console.log(data, "data from fetchSearchVideos");
     return data
   }
 );
@@ -67,9 +65,7 @@ export const fetchSearchVideos = createAsyncThunk(
 export const fetchCreateUserVideos = createAsyncThunk(
   "videos/fetchCreateUserVideos",
   async (params: HandleVideoParams) => {
-    console.log(params, "PARAMS from CREATE VIDEOS")
     const { data } = await axios.post("/videos/create", params);
-    console.log(data, "DATA from created userVideos")
     return data
   }
 );
@@ -78,7 +74,6 @@ export const fetchGetUserVideos = createAsyncThunk(
   "videos/fetchGetUserVideos",
   async (params: string | undefined) => {
     const { data } = await axios.get(`/videos/${params}`);
-    console.log(data, "DATA from GET userVideos")
     return data
   }
 );
@@ -87,7 +82,6 @@ export const fetchGetFriendsVideos = createAsyncThunk(
   "videos/fetchGetFriendsVideos",
   async (params: string | undefined) => {
     const { data } = await axios.get(`/videos/${params}`);
-    console.log(data, "DATA from GET userVideos")
     return data
   }
 );
@@ -95,9 +89,7 @@ export const fetchGetFriendsVideos = createAsyncThunk(
 export const fetchHandleVideo = createAsyncThunk(
   "videos/fetchHandleVideo",
   async (params: HandleVideoParams) => {
-    console.log(params, "PARAMS from fetch fandle SLICE")
     const { data } = await axios.put("/videos", params);
-    console.log(data, "DATA RESIVED FROM SERVER")
     return data
   }
 );

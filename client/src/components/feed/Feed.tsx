@@ -12,6 +12,7 @@ import { getFeedFromAllPosts } from "../../utils/getFeedFromAllPosts";
 import { SinglePostType } from "../../redux/slices/PostSlice";
 import { fetchGetUserVideos } from "../../redux/slices/VideosSlice";
 import { fetchCreateUserVideos } from "../../redux/slices/VideosSlice";
+import { fetchGetUserMusic } from "../../redux/slices/MusicSlice";
 import { setIsSearch, setSearchValue } from "../../redux/slices/PostSlice";
 
 const Feed: React.FC = () => {
@@ -22,6 +23,9 @@ const Feed: React.FC = () => {
   );
   const userVideosData = useSelector(
     (state: RootState) => state.videosReducer.userVideos
+  );
+  const musicId = useSelector(
+    (state: RootState) => state.musicReducer.userMusic.userId
   );
   const isSearch = useSelector(
     (state: RootState) => state.postReducer.search?.isSearch
@@ -39,7 +43,7 @@ const Feed: React.FC = () => {
   };
 
   useEffect(() => {
-    const newUserVideos = {
+    const newUserMedia = {
       userId,
     };
 
@@ -47,13 +51,17 @@ const Feed: React.FC = () => {
       await dispatch(fetchAllPosts());
       await dispatch(fetchAllUsers());
       await dispatch(fetchGetUserVideos(userId));
-      const setUserVideos = async () => {
-        if (!userVideosData?._id) {
-          await dispatch(fetchCreateUserVideos(newUserVideos));
+      await dispatch(fetchGetUserMusic(userId));
+
+      const setUserMedia = async () => {
+        if (!userVideosData._id) {
+          await dispatch(fetchCreateUserVideos(newUserMedia));
         }
-        setUserVideos();
+        console.log("setUserVideos");
       };
+      setUserMedia();
     };
+
     getData();
 
     return () => {
