@@ -11,6 +11,9 @@ const ChatLeftbar: React.FC = () => {
   const conversations = useSelector(
     (state: RootState) => state.chatReducer?.conversations
   );
+  const isMobile = useSelector(
+    (state: RootState) => state.authReducer.mobileStatus
+  );
 
   // filtering only friends, who i chat with
   const chatFriends: string[] = [];
@@ -26,14 +29,23 @@ const ChatLeftbar: React.FC = () => {
   });
 
   return (
-    <div className="chatMenu">
-      <div className="chatMenuWrapper">
-        <span className="friendsTitle">Chats with Friends</span>
-        {chatFriends?.map((friend, i) => (
-          <Conversation user={friend} key={i} conversations={conversations} />
-        ))}
+    <>
+      <div className="chatMenuMobile">
+        <div className="chatMenuWrapperMobile">
+          {chatFriends?.map((friend, i) => (
+            <Conversation user={friend} key={i} conversations={conversations} />
+          ))}
+        </div>
       </div>
-    </div>
+      <div className="chatMenu">
+        <div className="chatMenuWrapper">
+          <span className="friendsTitle">Chats with Friends</span>
+          {chatFriends?.map((friend, i) => (
+            <Conversation user={friend} key={i} conversations={conversations} />
+          ))}
+        </div>
+      </div>
+    </>
   );
 };
 

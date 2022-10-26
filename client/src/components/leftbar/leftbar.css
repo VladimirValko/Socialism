@@ -11,6 +11,10 @@
   box-shadow: 10px 1px 19px -11px rgba(34, 60, 80, 0.2);
 }
 
+.leftbarMobile {
+  display: none;
+}
+
 .leftbarWrapper {
   padding: 20px;
 }
@@ -92,4 +96,51 @@ transition-duration: 300ms;
 
 .birthdayText {
   font-weight: 300;
+}
+
+.leftbarMobile {
+  -webkit-box-shadow: 10px 1px 19px -11px rgba(34, 60, 80, 0.2);
+  -moz-box-shadow: 10px 1px 19px -11px rgba(34, 60, 80, 0.2);
+  box-shadow: 10px 1px 19px -11px rgba(34, 60, 80, 0.2);
+}
+
+@media (max-width: 1000px) {
+
+  .birthdayContainer {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .birthdayImg {
+    margin: 10px auto;
+  }
+}
+
+@media (max-width: 767px) {
+.leftbar{ 
+  display: none;
+}
+
+  .leftbarMobile {
+    display: block;
+    position: fixed;
+    top: 60px;
+    left: 0px;
+    width: 40%;
+    min-width: 200px;
+    height: calc(100vh - 60px);
+    z-index: 998;
+    background-color: white;
+    z-index: 66666;
+  }
+  .premiumBtn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .birthdayContainer {
+    width: 80%;
+  }
+
 }

@@ -76,7 +76,7 @@ app.post("/music/create", userMusicController.createUserMusic);
 app.put("/music", userMusicController.handleSong);
 app.get("/music/:userId", userMusicController.getUserMusic);
 
-app.listen(8888, () => {
+app.listen(9999, () => {
   connect();
-  console.log("app is alive on port 8888");
+  console.log("app is alive on port 9999");
 });

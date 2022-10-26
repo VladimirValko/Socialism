@@ -26,7 +26,8 @@
 
 .categories {
   display: flex;
-  justify-content: space-around;
+  flex-wrap: wrap;
+  /* justify-content: space-around; */
 }
 
 .active {
@@ -59,24 +60,20 @@
   list-style: none;
   margin: 5px 35px 20px 25px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
 }
 
 .categorieListItem {
   cursor: pointer;
   background-color: white;
   padding: 12px 20px;
-  margin-right: 10px;
+  margin: 10px;
   border-radius: 15px;
   -webkit-box-shadow: 4px 4px 11px -1px rgba(34, 60, 80, 0.16);
   -moz-box-shadow: 4px 4px 11px -1px rgba(34, 60, 80, 0.16);
   box-shadow: 4px 4px 11px -1px rgba(34, 60, 80, 0.16);
 }
-
-/* .categorieListItem:first-child{
-  background-color: rgb(131, 100, 199);
-  color: white;
-} */
 
 .videosButtom {
   height: max-content;
@@ -95,4 +92,34 @@
 .noResultsWrapper {
   height: 70vh;
   margin: 20px auto;
+}
+
+@media (max-width: 1000px) {
+  .videosButtom {
+    grid-template-columns: repeat(1, minmax(0, 1fr));;
+  }
+  .categoriesList{
+    margin: 5px;
+  }
+  .categorieListItem {
+    font-size: 14px;
+    padding: 15px;
+  }
+  .noResultsWrapper>img {
+    width: 300px;
+    margin: 20px auto;
+  }
+
+  .searchVideoInput {
+    width: 300px;
+  }
+}
+
+@media (max-width: 767px) {
+  .categoriesList{
+    padding: 0;
+  }
+  .videosContainer {
+    margin: 7px;
+  }
 }

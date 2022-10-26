@@ -9,7 +9,6 @@ type UserStateType = {
   status: string;
 }
 
-
 // THUNKS
 export const fetchAllUsers = createAsyncThunk(
   "user/fetchAllUsers",
@@ -18,7 +17,6 @@ export const fetchAllUsers = createAsyncThunk(
     return data
   }
 );
-
 
 // STATE
 const initialState: UserStateType = {

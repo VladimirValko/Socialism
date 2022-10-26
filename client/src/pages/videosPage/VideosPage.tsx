@@ -7,7 +7,7 @@ import Videos from "../../components/videos/Viseos";
 const VideosPage: React.FC = () => {
   return (
     <>
-      <Topbar />
+      {/* <Topbar /> */}
       <div className="videoPage">
         <Leftbar />
         <Videos />

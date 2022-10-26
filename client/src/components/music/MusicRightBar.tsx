@@ -96,7 +96,7 @@ const MusicRightBar: React.FC = () => {
             Electronic
           </button>
           <button
-            className={`ganre ${
+            className={`ganre searchBtn ${
               activeGanreName === "search" ? "activeGanre" : ""
             }`}
             onClick={() => handleSetActiveGanre("search")}

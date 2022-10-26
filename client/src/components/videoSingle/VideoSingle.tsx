@@ -80,7 +80,7 @@ const VideoSingle: React.FC<SingleVideo> = ({ data, isMyPage }) => {
       <div className="videoSingleTop">
         {!isMyPage ? (
           <ReactPlayer
-            // url={`www.youtube.com/watch?v=${data?.id?.videoId}`}
+            url={`www.youtube.com/watch?v=${data?.id?.videoId}`}
             className="videoPlayer"
             controls={true}
             width={"100%"}

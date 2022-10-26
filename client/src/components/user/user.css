@@ -23,7 +23,7 @@
   margin-right: 20px;
 }
 
-.nameLogout {
+.profileTop {
   margin-top: 10px;
   display: flex;
   justify-content: space-between;
@@ -55,6 +55,10 @@
   width: 100%;
   margin-bottom: 10px;
   align-items: center;
+}
+
+.userMobileProfilePhoto {
+  display: none;
 }
 
 .profileImg>img{
@@ -248,4 +252,47 @@
   object-fit: cover;
   border-radius: 10px;
   margin-bottom: 10px;
+}
+
+@media (max-width: 1000px) {
+
+  .userLeft {
+    display: none;
+  }
+
+  .userMobileProfilePhoto {
+    display: flex;
+  }
+
+  .mobileProfilrImg {
+    height: 200px;
+    width: auto;
+    margin: 10px 20px;
+    border-radius: 10px;
+  }
+
+  .profileMedia {
+    display: none;
+  }
+}
+
+@media (max-width: 1000px) {
+  .userRight {
+    margin: 10px;
+  }
+}
+
+@media (max-width: 767px) {
+
+  .userLeft {
+    display: none;
+  }
+
+  .userRight {
+    margin: 7px;
+  }
+
+  .userName {
+    font-size: 18px;
+  }
 }

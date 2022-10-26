@@ -153,7 +153,7 @@ const User: React.FC<UserProps> = ({ isMyPage }) => {
       </div>
       <div className="userRight">
         <div className="profileInfo">
-          <div className="nameLogout">
+          <div className="profileTop">
             <div className="userName">
               <span>
                 <b>{user?.username}</b>
@@ -165,15 +165,24 @@ const User: React.FC<UserProps> = ({ isMyPage }) => {
                 </div>
               )}
             </div>
-            {isMyPage ? (
-              <button className="logoutBtn" onClick={() => onClickLogout()}>
-                Log out
-              </button>
-            ) : (
-              <button className="logoutBtn" onClick={() => followUnfollow()}>
-                {amFollowing ? "Unfollow User" : "Follow User"}
-              </button>
-            )}
+            <div className="profileTopRight">
+              {isMyPage ? (
+                <button className="logoutBtn" onClick={() => onClickLogout()}>
+                  Log out
+                </button>
+              ) : (
+                <button className="logoutBtn" onClick={() => followUnfollow()}>
+                  {amFollowing ? "Unfollow User" : "Follow User"}
+                </button>
+              )}
+            </div>
+          </div>
+          <div className="userMobileProfilePhoto">
+            <img
+              src={user.coverPicture}
+              alt="profile"
+              className="mobileProfilrImg"
+            />
           </div>
           <div className="mainInfo">
             <span>

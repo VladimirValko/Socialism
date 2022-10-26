@@ -8,7 +8,7 @@ import UsersList from "../../components/usersList/UsersList";
 const People = () => {
   return (
     <>
-      <Topbar />
+      {/* <Topbar /> */}
       <div className="usersListContainer">
         <Leftbar />
         <UsersList />

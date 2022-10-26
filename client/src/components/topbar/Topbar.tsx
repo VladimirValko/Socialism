@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import "./topbar.css";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -10,17 +11,23 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../redux/store";
 import { undefinedPicture } from "../post/Post";
 import { setIsSearch, setSearchValue } from "../../redux/slices/PostSlice";
+import { toggleMobileMenu } from "../../redux/slices/AuthSlice";
 import { useForm } from "react-hook-form";
+import Hamburger from "hamburger-react";
 
 type SubmitSearchProps = {
   search: string;
 };
 
 const Topbar: React.FC = () => {
+  const [isOpen, setOpen] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector(
     (state: RootState) => state.authReducer.userData.user
+  );
+  const isMobile = useSelector(
+    (state: RootState) => state.authReducer.mobileStatus
   );
 
   const { register, handleSubmit, resetField } = useForm({
@@ -35,6 +42,11 @@ const Topbar: React.FC = () => {
     dispatch(setSearchValue(inputValue.search));
     navigate("/");
     resetField("search");
+  };
+
+  const handleToggleHamburger = () => {
+    setOpen(!isOpen);
+    dispatch(toggleMobileMenu());
   };
 
   return (
@@ -88,6 +100,9 @@ const Topbar: React.FC = () => {
               className="topbarImage"
             />
           </Link>
+        </div>
+        <div className="hamburger">
+          <Hamburger toggled={isOpen} toggle={() => handleToggleHamburger()} />
         </div>
       </div>
     </div>

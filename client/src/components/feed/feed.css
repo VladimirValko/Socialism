@@ -35,3 +35,9 @@
   border-radius: 10px;
   align-self: center;
 }
+
+@media (max-width: 767px) { 
+  .feedWrapper {
+    padding: 7px; 
+  }
+}

@@ -8,7 +8,7 @@ import MusicRightBar from "../../components/music/MusicRightBar";
 const VideosPage: React.FC = () => {
   return (
     <>
-      <Topbar />
+      {/* <Topbar /> */}
       <div className="musicPage">
         <Leftbar />
         <Music />

@@ -40,6 +40,7 @@ type StateType = {
     token: string;
     myVideos: YtVideo[];
   };
+  mobileStatus: boolean;
   status: string;
 }
 
@@ -92,6 +93,7 @@ const initialState: StateType = {
     myVideos: [],
   },
   
+  mobileStatus: false,
   status: "loading",
 };
 
@@ -101,6 +103,10 @@ const authSlice = createSlice({
   reducers: {
     logOut: (state) => {
       state.userData.user = null;
+    },
+    toggleMobileMenu: (state) => {
+      state.mobileStatus = !state.mobileStatus;
+      console.log(state.mobileStatus)
     },
   },
   extraReducers: (builder) => {
@@ -170,6 +176,6 @@ const authSlice = createSlice({
 
 export const selectIsAuth = (state: RootState) => Boolean(state.authReducer.userData.user);
 
-export const { logOut } = authSlice.actions;
+export const { logOut, toggleMobileMenu } = authSlice.actions;
 
 export const authReducer = authSlice.reducer;

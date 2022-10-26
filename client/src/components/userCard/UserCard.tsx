@@ -17,7 +17,7 @@ const UserCard: React.FC<UserCardProps> = ({ data }) => {
     <div className="userCard">
       <div className="userCardWrapper">
         <div className="userCardLeft">
-          <div className="userCardImgWrapper">
+          <div className="userCardImgWrapper" onClick={() => handleNavigate()}>
             <img src={data.coverPicture} alt="user" className="userCardImg" />
           </div>
           <div className="userCadrInfo">

@@ -60,3 +60,9 @@
   list-style: none;
 }
 
+@media (max-width: 1024px) {
+
+  .rightbar {
+    display: none;
+  }
+}

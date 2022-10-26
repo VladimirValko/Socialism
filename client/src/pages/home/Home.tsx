@@ -8,7 +8,7 @@ import "./home.css";
 const Home: React.FC = () => {
   return (
     <>
-      <Topbar />
+      {/* <Topbar /> */}
       <div className="homeContainer">
         <Leftbar />
         <Feed />

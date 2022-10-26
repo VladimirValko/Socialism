@@ -69,3 +69,13 @@
   -moz-box-shadow: 5px 5px 39px -38px rgba(34, 60, 80, 0.6) inset;
   box-shadow: 5px 5px 39px -38px rgba(34, 60, 80, 0.6) inset;
 }
+
+@media (max-width: 767px) {
+  .userCardWrapper {
+    flex-direction: column;
+  }
+
+  .userCardBtn {
+    display: none;
+  }
+}

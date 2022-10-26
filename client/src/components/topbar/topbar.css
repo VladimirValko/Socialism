@@ -8,7 +8,7 @@
   align-items: center;
   position: sticky;
   top: 0;
-  z-index: 9999;
+  z-index: 99999;
 }
 
 .logo {
@@ -96,4 +96,61 @@
   object-fit: cover;
   border: 1px solid white;
   cursor: pointer;
+}
+
+.hamburger {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+
+    .topbarLinks {
+      display: none;
+    }
+}
+
+@media (max-width: 767px) {
+
+  .topbarIcons {
+    display: none;
+  }
+  .searchIcon {
+    display: none;
+  }
+  .searchbar {
+    padding: 0 10px;
+  }
+  .topbarContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .topbarLeft {
+    flex: 4;
+  }
+  .topbarCenter {
+    flex: 4;
+  }
+  .topbarRight {
+    flex: 4;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    color: white;
+    padding-right: 10px;
+  }
+}
+
+@media (max-width: 767px) {
+  .searchbar {
+    display: none;
+  }
+
+  .hamburger {
+    display: block;
+  }
+
+  .topbarImage {
+    display: none;
+  }
 }

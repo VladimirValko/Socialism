@@ -81,7 +81,7 @@ const Share: React.FC = () => {
                 onClick={() => setIsAddingPicture(!isAddingPicture)}
               >
                 <BsImages className="shareIcon" style={{ color: "#0e8bad" }} />
-                <span className="shareOptionText">Photo / Video</span>
+                <span className="shareOptionText">Photo</span>
               </div>
               <div className="shareOption">
                 <RiFileMusicLine

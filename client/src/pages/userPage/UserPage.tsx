@@ -17,7 +17,7 @@ const UserPage: React.FC = () => {
 
   return (
     <>
-      <Topbar />
+      {/* <Topbar /> */}
       <div className="profile">
         <Leftbar />
         <div className="profileContainer">

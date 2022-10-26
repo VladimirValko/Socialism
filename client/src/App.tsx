@@ -4,6 +4,7 @@ import Register from "./pages/register/Register";
 import UserPage from "./pages/userPage/UserPage";
 import People from "./pages/people/People";
 import Messenger from "./pages/messenger/Messenger";
+import Topbar from "./components/topbar/Topbar";
 import "./App.css";
 import { useSelector } from "react-redux";
 import { selectIsAuth } from "./redux/slices/AuthSlice";
@@ -16,6 +17,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="app">
+        <Topbar />
         <Routes>
           <Route path="/" element={isAuth ? <Home /> : <Login />} />
           <Route path="/login" element={<Login />} />

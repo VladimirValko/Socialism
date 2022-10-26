@@ -3,11 +3,7 @@ import "./messenger.css";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../redux/store";
 import { AppDispatch } from "../../redux/store";
-import {
-  fetchConversations,
-  fetchMessages,
-  setConversation,
-} from "../../redux/slices/ChatSlice";
+import { fetchConversations } from "../../redux/slices/ChatSlice";
 import Topbar from "../../components/topbar/Topbar";
 import Leftbar from "../../components/leftbar/Leftbar";
 import Messages from "../../components/messages/Messages";
@@ -17,9 +13,6 @@ const Messenger: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const user = useSelector(
     (state: RootState) => state.authReducer.userData.user
-  );
-  const friends = useSelector(
-    (state: RootState) => state.authReducer.userData.user?.followins
   );
 
   useEffect(() => {
@@ -32,7 +25,7 @@ const Messenger: React.FC = () => {
 
   return (
     <>
-      <Topbar />
+      {/* <Topbar /> */}
       <div className="messengerPage">
         <Leftbar />
         <Messages />
